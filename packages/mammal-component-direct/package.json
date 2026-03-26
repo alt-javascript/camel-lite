@@ -1,0 +1,11 @@
+{
+  "name": "mammal-component-direct",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "mammal-core": "*"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
