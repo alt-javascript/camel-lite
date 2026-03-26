@@ -23,10 +23,42 @@ class RouteDefinition {
     return this.#fromUri;
   }
 
-  compile() {
-    // Filter to processor-function nodes only; skip 'to' nodes (S03 concern)
-    const processorFns = this.#nodes.filter((n) => typeof n === 'function');
-    return new Pipeline(processorFns);
+  getNodes() {
+    return [...this.#nodes];
+  }
+
+  compile(context = null) {
+    const steps = [];
+
+    for (const node of this.#nodes) {
+      if (typeof node === 'function') {
+        steps.push(node);
+      } else if (node && node.type === 'to') {
+        if (context !== null) {
+          // Capture uri at definition time; create dispatch step at runtime
+          const { uri } = node;
+          const dispatchStep = async (exchange) => {
+            const colonIdx = uri.indexOf(':');
+            const scheme = colonIdx >= 0 ? uri.slice(0, colonIdx) : uri;
+            const rest = colonIdx >= 0 ? uri.slice(colonIdx + 1) : '';
+            const qIdx = rest.indexOf('?');
+            const remaining = qIdx >= 0 ? rest.slice(0, qIdx) : rest;
+            const params = qIdx >= 0
+              ? new URLSearchParams(rest.slice(qIdx + 1))
+              : new URLSearchParams();
+
+            const component = context.getComponent(scheme);
+            const endpoint = component.createEndpoint(uri, remaining, params, context);
+            const producer = endpoint.createProducer();
+            await producer.send(exchange);
+          };
+          steps.push(dispatchStep);
+        }
+        // When context is null, skip to() nodes (preserve existing behaviour)
+      }
+    }
+
+    return new Pipeline(steps);
   }
 }
 
