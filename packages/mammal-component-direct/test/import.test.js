@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { Exchange, Message, MammalContext, Component } from 'mammal-core';
-import { DirectComponent } from 'mammal-component-direct';
+import { Exchange, Message, MammalContext, Component, Pipeline, CycleDetectedError } from 'mammal-core';
+import { DirectComponent, DirectEndpoint, DirectProducer, DirectConsumer } from 'mammal-component-direct';
 
 describe('cross-package import integration', () => {
   it('Exchange imported from mammal-core constructs correctly', () => {
@@ -21,10 +21,10 @@ describe('cross-package import integration', () => {
     assert.ok(dc instanceof Component);
   });
 
-  it('DirectComponent.createEndpoint throws the expected error', () => {
+  it('DirectComponent.createEndpoint returns a DirectEndpoint', () => {
     const dc = new DirectComponent();
-    assert.throws(() => dc.createEndpoint('direct://foo', 'foo', {}, null), {
-      message: 'DirectComponent not yet implemented',
-    });
+    const ctx = new MammalContext();
+    const ep = dc.createEndpoint('direct:foo', 'foo', {}, ctx);
+    assert.ok(ep instanceof DirectEndpoint);
   });
 });

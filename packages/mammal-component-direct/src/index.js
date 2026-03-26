@@ -1,10 +1,7 @@
-import { Component } from 'mammal-core';
+export { DirectComponent } from './DirectComponent.js';
+export { DirectEndpoint } from './DirectEndpoint.js';
+export { DirectProducer } from './DirectProducer.js';
+export { DirectConsumer } from './DirectConsumer.js';
 
-class DirectComponent extends Component {
-  createEndpoint(uri, remaining, parameters, context) {
-    throw new Error('DirectComponent not yet implemented');
-  }
-}
-
-export { DirectComponent };
+import DirectComponent from './DirectComponent.js';
 export default DirectComponent;

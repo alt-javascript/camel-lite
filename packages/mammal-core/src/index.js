@@ -6,5 +6,4 @@ export { RouteBuilder } from './RouteBuilder.js';
 export { RouteDefinition } from './RouteDefinition.js';
 export { Pipeline } from './Pipeline.js';
 export { normalize } from './ProcessorNormalizer.js';
-// CycleDetectedError placeholder — implemented in T02
-export const CycleDetectedError = null;
+export { CycleDetectedError } from './errors/CycleDetectedError.js';
