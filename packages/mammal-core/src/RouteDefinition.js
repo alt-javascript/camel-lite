@@ -4,6 +4,7 @@ import { Pipeline } from './Pipeline.js';
 class RouteDefinition {
   #fromUri;
   #nodes = [];
+  #clauses = [];
 
   constructor(fromUri) {
     this.#fromUri = fromUri;
@@ -16,6 +17,16 @@ class RouteDefinition {
 
   to(uri) {
     this.#nodes.push({ type: 'to', uri });
+    return this;
+  }
+
+  onException(errorClass, processor, options = {}) {
+    const normalised = normalize(processor);
+    this.#clauses.push({
+      errorClass,
+      processor: normalised,
+      handled: options.handled ?? true,
+    });
     return this;
   }
 
@@ -58,7 +69,7 @@ class RouteDefinition {
       }
     }
 
-    return new Pipeline(steps);
+    return new Pipeline(steps, { clauses: this.#clauses });
   }
 }
 

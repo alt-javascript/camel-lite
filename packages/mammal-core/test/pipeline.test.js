@@ -158,3 +158,94 @@ describe('Pipeline', () => {
     assert.equal(ex.isFailed(), false);
   });
 });
+
+describe('Pipeline onException / redelivery', () => {
+  it('onException clause fires when error class matches — handler called, exchange.exception null after (handled:true default)', async () => {
+    let handlerCalled = false;
+    const clause = {
+      errorClass: TypeError,
+      processor: async (ex) => { handlerCalled = true; ex.in.body = 'caught'; },
+      handled: true,
+    };
+    const step = normalize(async () => { throw new TypeError('type error'); });
+    const pipeline = new Pipeline([step], { clauses: [clause] });
+    const ex = new Exchange();
+    await pipeline.run(ex);
+    assert.equal(handlerCalled, true);
+    assert.equal(ex.exception, null, 'exception should be cleared when handled:true');
+    assert.equal(ex.in.body, 'caught');
+  });
+
+  it('onException clause does NOT fire when error class does not match — exchange.exception set, handler not called', async () => {
+    let handlerCalled = false;
+    const clause = {
+      errorClass: RangeError,
+      processor: async () => { handlerCalled = true; },
+      handled: true,
+    };
+    const step = normalize(async () => { throw new TypeError('type error'); });
+    const pipeline = new Pipeline([step], { clauses: [clause] });
+    const ex = new Exchange();
+    await pipeline.run(ex);
+    assert.equal(handlerCalled, false);
+    assert.ok(ex.exception instanceof TypeError, 'exception should remain set');
+  });
+
+  it('handled:false — clause fires but exchange.exception remains set after handler', async () => {
+    let handlerCalled = false;
+    const err = new Error('boom');
+    const clause = {
+      errorClass: Error,
+      processor: async () => { handlerCalled = true; },
+      handled: false,
+    };
+    const step = normalize(async () => { throw err; });
+    const pipeline = new Pipeline([step], { clauses: [clause] });
+    const ex = new Exchange();
+    await pipeline.run(ex);
+    assert.equal(handlerCalled, true);
+    assert.strictEqual(ex.exception, err, 'exception should remain when handled:false');
+  });
+
+  it('redelivery retries step N times before dispatching to clause — track call count', async () => {
+    let callCount = 0;
+    let handlerCalled = false;
+    const step = normalize(async () => {
+      callCount++;
+      throw new Error('always fails');
+    });
+    const clause = {
+      errorClass: Error,
+      processor: async () => { handlerCalled = true; },
+      handled: true,
+    };
+    const pipeline = new Pipeline([step], { clauses: [clause], maxAttempts: 2 });
+    const ex = new Exchange();
+    await pipeline.run(ex);
+    assert.equal(callCount, 3, 'should attempt 1 + 2 retries = 3 total');
+    assert.equal(handlerCalled, true);
+    assert.equal(ex.exception, null);
+  });
+
+  it('redelivery: step succeeds on 2nd attempt — no clause fired, exchange.exception null', async () => {
+    let callCount = 0;
+    let handlerCalled = false;
+    const step = normalize(async (ex) => {
+      callCount++;
+      if (callCount < 2) throw new Error('transient');
+      ex.in.body = 'recovered';
+    });
+    const clause = {
+      errorClass: Error,
+      processor: async () => { handlerCalled = true; },
+      handled: true,
+    };
+    const pipeline = new Pipeline([step], { clauses: [clause], maxAttempts: 2 });
+    const ex = new Exchange();
+    await pipeline.run(ex);
+    assert.equal(callCount, 2, 'should succeed on 2nd attempt');
+    assert.equal(handlerCalled, false, 'clause should not fire on success');
+    assert.equal(ex.exception, null);
+    assert.equal(ex.in.body, 'recovered');
+  });
+});

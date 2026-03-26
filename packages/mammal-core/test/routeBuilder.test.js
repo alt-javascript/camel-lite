@@ -179,3 +179,30 @@ describe('Integration: 3-step pipeline via addRoutes', () => {
     assert.equal(exchange.in.body, 'fn-obj');
   });
 });
+
+describe('RouteDefinition.onException()', () => {
+  it('onException() is fluent (returns routeDef)', () => {
+    const routeDef = new RouteDefinition('direct:test');
+    const returned = routeDef.onException(Error, async () => {});
+    assert.strictEqual(returned, routeDef, 'onException() should return routeDef for chaining');
+  });
+
+  it('compiled pipeline from routeDef.onException() handles matching error', async () => {
+    let handlerCalled = false;
+    const routeDef = new RouteDefinition('direct:test');
+    routeDef
+      .process(async () => { throw new TypeError('test error'); })
+      .onException(TypeError, async (ex) => {
+        handlerCalled = true;
+        ex.in.body = 'handled';
+      });
+
+    const pipeline = routeDef.compile();
+    const exchange = new Exchange();
+    await pipeline.run(exchange);
+
+    assert.equal(handlerCalled, true, 'onException handler should be called');
+    assert.equal(exchange.exception, null, 'exception cleared — handled:true is default');
+    assert.equal(exchange.in.body, 'handled');
+  });
+});
