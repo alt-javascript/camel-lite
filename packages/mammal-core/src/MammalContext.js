@@ -1,5 +1,6 @@
 class MammalContext {
   #components = new Map();
+  #routes = new Map();
   #started = false;
 
   addComponent(scheme, component) {
@@ -9,6 +10,21 @@ class MammalContext {
 
   getComponent(scheme) {
     return this.#components.get(scheme);
+  }
+
+  addRoutes(builder) {
+    if (typeof builder.configure === 'function') {
+      builder.configure(this);
+    }
+    for (const routeDef of builder.getRoutes()) {
+      const pipeline = routeDef.compile();
+      this.#routes.set(routeDef.fromUri, pipeline);
+    }
+    return this;
+  }
+
+  getRoute(uri) {
+    return this.#routes.get(uri);
   }
 
   async start() {
