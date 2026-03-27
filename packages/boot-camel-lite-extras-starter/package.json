@@ -1,0 +1,24 @@
+{
+  "name": "boot-camel-lite-extras-starter",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "dependencies": {
+    "@alt-javascript/boot": "^3.0.7",
+    "@alt-javascript/cdi": "^3.0.7",
+    "@alt-javascript/config": "^3.0.7",
+    "@alt-javascript/logger": "^3.0.7",
+    "@alt-javascript/common": "^3.0.7",
+    "boot-camel-lite-starter": "*",
+    "camel-lite-core": "*",
+    "camel-lite-component-amqp": "*",
+    "camel-lite-component-sql": "*",
+    "camel-lite-component-nosql": "*",
+    "camel-lite-component-master": "*"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

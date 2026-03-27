@@ -1,0 +1,42 @@
+{
+  "name": "camel-lite-cli",
+  "version": "1.0.0",
+  "description": "Command-line runtime for camel-lite — load a route definition and send a message",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "camel-lite": "./bin/camel-lite.js"
+  },
+  "files": [
+    "bin/",
+    "src/"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "camel-lite-core": "*",
+    "camel-lite-component-amqp": "*",
+    "camel-lite-component-direct": "*",
+    "camel-lite-component-file": "*",
+    "camel-lite-component-ftp": "*",
+    "camel-lite-component-http": "*",
+    "camel-lite-component-log": "*",
+    "camel-lite-component-nosql": "*",
+    "camel-lite-component-seda": "*",
+    "camel-lite-component-sql": "*",
+    "camel-lite-component-timer": "*",
+    "camel-lite-component-cron": "*",
+    "camel-lite-component-master": "*",
+    "commander": "^12.0.0"
+  },
+  "keywords": [
+    "camel",
+    "camel-lite",
+    "eip",
+    "routing",
+    "cli"
+  ],
+  "author": "Craig Parravicini",
+  "license": "MIT"
+}

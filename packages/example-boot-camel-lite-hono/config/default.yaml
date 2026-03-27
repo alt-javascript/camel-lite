@@ -1,0 +1,26 @@
+app:
+  name: camel-lite-hono-example
+  version: 1.0.0
+
+server:
+  port: 3000
+  host: 0.0.0.0
+
+boot:
+  camel-lite:
+    direct:
+      enabled: true
+    seda:
+      enabled: true
+    log:
+      enabled: true
+    timer:
+      enabled: true
+    master:
+      enabled: true
+    amqp:
+      enabled: false
+    sql:
+      enabled: false
+    nosql:
+      enabled: false

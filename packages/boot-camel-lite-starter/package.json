@@ -1,0 +1,27 @@
+{
+  "name": "boot-camel-lite-starter",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "dependencies": {
+    "@alt-javascript/boot": "^3.0.7",
+    "@alt-javascript/cdi": "^3.0.7",
+    "@alt-javascript/config": "^3.0.7",
+    "@alt-javascript/logger": "^3.0.7",
+    "@alt-javascript/common": "^3.0.7",
+    "camel-lite-core": "*",
+    "camel-lite-component-direct": "*",
+    "camel-lite-component-seda": "*",
+    "camel-lite-component-log": "*",
+    "camel-lite-component-file": "*",
+    "camel-lite-component-http": "*",
+    "camel-lite-component-ftp": "*",
+    "camel-lite-component-timer": "*",
+    "camel-lite-component-cron": "*"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

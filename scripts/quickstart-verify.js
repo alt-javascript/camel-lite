@@ -1,9 +1,9 @@
-import { MammalContext, Exchange, RouteDefinition } from 'mammal-core';
-import { DirectComponent } from 'mammal-component-direct';
-import { LogComponent } from 'mammal-component-log';
+import { CamelContext, Exchange, RouteDefinition } from 'camel-lite-core';
+import { DirectComponent } from 'camel-lite-component-direct';
+import { LogComponent } from 'camel-lite-component-log';
 
 // 1. Create context and register components
-const context = new MammalContext();
+const context = new CamelContext();
 context.addComponent('direct', new DirectComponent());
 context.addComponent('log', new LogComponent());
 
@@ -14,7 +14,7 @@ routeA.to('direct:chain');
 
 // 3. Route B: chain — dispatch to log output
 const routeB = new RouteDefinition('direct:chain');
-routeB.to('log:output?level=log&showBody=true');
+routeB.to('log:output?level=info&showBody=true');
 
 context.addRoutes({ configure() {}, getRoutes() { return [routeA, routeB]; } });
 

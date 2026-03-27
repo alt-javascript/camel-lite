@@ -1,119 +1,179 @@
-# mammal
+# camel-lite
 
-ESM-native Apache Camel-inspired routing engine for Node.js.
+[![Language](https://img.shields.io/badge/language-JavaScript-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](CHANGELOG.md)
 
-## What is mammal
+An [Apache Camel](https://camel.apache.org/)-inspired integration framework for pure JavaScript — Enterprise Integration Patterns, component-based routing, and a Spring Boot-style auto-configuration starter, all in ES modules with no TypeScript and no build step required.
 
-mammal is an ESM-native Apache Camel-inspired message routing engine for Node.js. It lets you define composable routes, wire components together via URI-addressed endpoints, and drive exchanges through pipelines — with built-in support for error handling and redelivery.
+## Apache Camel Attribution
 
-## Installation
+The design of `camel-lite` is heavily and deliberately modelled on [Apache Camel](https://camel.apache.org/). Apache Camel is credited as a collaborator in this project, not merely an inspiration.
 
-mammal is a monorepo. Install all workspace packages from the root:
+Specific concepts ported from Apache Camel:
 
-```sh
-npm install
+| Apache Camel concept | camel-lite equivalent |
+|---|---|
+| `CamelContext` | `CamelContext` — component registry, route lifecycle, consumer map |
+| `Component` / `Endpoint` / `Producer` / `Consumer` factory chain | Same three-tier factory chain — `createEndpoint` → `createProducer` / `createConsumer` |
+| `Exchange` / `Message` (in/out) | `Exchange` / `Message` — same in/out pattern, headers, properties, exception |
+| `RouteBuilder` / `RouteDefinition` | `RouteBuilder` / `RouteDefinition` — fluent DSL, `from(...).process(...).to(...)` |
+| `ProducerTemplate` / `ConsumerTemplate` | `ProducerTemplate` / `ConsumerTemplate` — high-level send/receive APIs |
+| `Pipeline` | `Pipeline` — sequential processor chain with error handling and redelivery |
+| URI-based endpoint addressing | Same scheme: `direct:name`, `seda:name?size=100`, `timer:tick?period=1000` |
+| `direct:` component (synchronous in-process) | `camel-lite-component-direct` |
+| `seda:` component (async in-process queue) | `camel-lite-component-seda` |
+| `timer:` component (periodic trigger) | `camel-lite-component-timer` |
+| `file:` / `ftp:` / `http:` components | `camel-lite-component-file` / `ftp` / `http` |
+| `log:` component | `camel-lite-component-log` |
+| `sql:` component | `camel-lite-component-sql` (Node.js built-in `node:sqlite`) |
+| `amqp:` component | `camel-lite-component-amqp` (AMQP 1.0 + 0-9-1) |
+| NoSQL component | `camel-lite-component-nosql` (jsnosqlc) |
+| `master:` component (leader election) | `camel-lite-component-master` (file, ZooKeeper, Consul backends) |
+| Cron-triggered routes | `camel-lite-component-cron` (node-cron) |
+| EIP: Message Filter | `RouteDefinition.filter(predicate)` |
+| EIP: Content-Based Router | `RouteDefinition.choice().when(...).otherwise()` |
+| EIP: Message Translator | `RouteDefinition.transform(expr)` / `setBody(expr)` |
+| EIP: Splitter | `RouteDefinition.split(expr)` |
+| EIP: Aggregator | `RouteDefinition.aggregate(expr, strategy)` |
+| EIP: Dead Letter Channel | `RouteDefinition.deadLetterChannel(uri)` |
+| Simple expression language | `simple('${body}')`, `simple('${header.X}')` |
+| YAML/JSON route definitions | `RouteLoader.loadFile()` / `loadString()` / `loadStream()` / `loadObject()` |
+| Spring Boot auto-configuration | `boot-camel-lite-starter` / `boot-camel-lite-extras-starter` |
+
+Apache Camel is copyright The Apache Software Foundation. `camel-lite` is an independent JavaScript port and is not affiliated with, endorsed by, or associated with the Apache Software Foundation or the Apache Camel project.
+
+## Collaborators
+
+**[Apache Camel team](https://camel.apache.org/)** — The architecture, component model, EIP implementations, URI routing, and expression language of camel-lite are direct ports of design decisions made by the Apache Camel team over many years. This project would not exist without their work.
+
+**[Claude](https://www.anthropic.com/claude) (Anthropic)** — AI pair programmer that co-designed and co-implemented this project. The entire codebase was developed collaboratively with Claude as an active engineering partner.
+
+## Why
+
+Apache Camel is the gold standard for integration patterns in the Java ecosystem. If you want those same patterns in a pure JavaScript project — with no Java, no TypeScript, no build step, and no runtime dependencies beyond the Node.js standard library — `camel-lite` fills that gap.
+
+It runs in Node.js 22+ as pure ESM. The boot starters bring it into the `@alt-javascript/boot` CDI ecosystem, giving you the same configuration-driven auto-wiring that Spring Boot provides for Camel in the Java world.
+
+## Quick Start
+
+```bash
+npm install camel-lite-core camel-lite-component-direct camel-lite-component-log
 ```
 
-Each package (`mammal-core`, `mammal-component-direct`, `mammal-component-log`) is an ESM module. Import from the workspace package name once installed.
+```javascript
+import { CamelContext, RouteBuilder } from 'camel-lite-core';
+import { DirectComponent } from 'camel-lite-component-direct';
+import { LogComponent } from 'camel-lite-component-log';
+import { ProducerTemplate } from 'camel-lite-core';
 
-## Quickstart
-
-```js
-import { MammalContext, Exchange, RouteDefinition } from 'mammal-core';
-import { DirectComponent } from 'mammal-component-direct';
-import { LogComponent } from 'mammal-component-log';
-
-// 1. Create context and register components
-const context = new MammalContext();
+const context = new CamelContext();
 context.addComponent('direct', new DirectComponent());
 context.addComponent('log', new LogComponent());
 
-// 2. Route A: entry point — set body, dispatch to chain
-const routeA = new RouteDefinition('direct:entry');
-routeA.process((exchange) => { exchange.in.body = 'hello world'; });
-routeA.to('direct:chain');
+const builder = new RouteBuilder();
+builder.from('direct:greet')
+  .setBody(() => exchange => `Hello, ${exchange.in.body}!`)
+  .to('log:greet');
 
-// 3. Route B: chain — dispatch to log output
-const routeB = new RouteDefinition('direct:chain');
-routeB.to('log:output?level=log&showBody=true');
-
-context.addRoutes({ configure() {}, getRoutes() { return [routeA, routeB]; } });
-
-// 4. Start context — compiles routes with context, registers consumers
+context.addRoutes(builder);
 await context.start();
 
-// 5. Drive exchange via the context-aware consumer
-const exchange = new Exchange();
-const consumer = context.getConsumer('direct:entry');
-await consumer.process(exchange);
-
-console.log(exchange.in.body); // → 'hello world'
-
-// 6. Stop context
-await context.stop();
-```
-
-## Driving a route programmatically
-
-Always drive routes via `context.getConsumer(uri).process(exchange)`, **not** `context.getRoute(uri).run()`.
-
-`getRoute(uri)` returns the _eager_ pipeline compiled without a context. This pipeline skips all `to()` nodes — cross-route dispatch is not available. The context-aware pipeline is compiled during `context.start()` and stored in each registered consumer. It is only available after `start()`.
-
-```js
-// ✅ Correct — context-aware pipeline, to() dispatch works
-const consumer = context.getConsumer('direct:entry');
-await consumer.process(exchange);
-
-// ❌ Wrong — eager no-context pipeline, to() nodes are silently skipped
-// context.getRoute('direct:entry').run(exchange);
-```
-
-## Error handling
-
-Use `onException` on a `RouteDefinition` to register an error handler for a specific error class. By default, `handled: true` clears `exchange.exception` after the handler runs — use `exchange.isFailed()` to check whether the exchange is in a failed state.
-
-```js
-import { MammalContext, Exchange, RouteDefinition } from 'mammal-core';
-import { DirectComponent } from 'mammal-component-direct';
-
-const context = new MammalContext();
-context.addComponent('direct', new DirectComponent());
-
-const route = new RouteDefinition('direct:risky');
-
-// Register error handler before calling process()
-route.onException(TypeError, (exchange) => {
-  console.error('Caught TypeError:', exchange.exception?.message);
-  exchange.in.body = 'fallback';
-});
-
-route.process((exchange) => {
-  throw new TypeError('something went wrong');
-});
-
-context.addRoutes({ configure() {}, getRoutes() { return [route]; } });
-await context.start();
-
-const exchange = new Exchange();
-await context.getConsumer('direct:risky').process(exchange);
-
-console.log(exchange.in.body);      // → 'fallback'
-console.log(exchange.exception);    // → null  (cleared because handled: true)
-console.log(exchange.isFailed());   // → false
+const pt = new ProducerTemplate(context);
+await pt.sendBody('direct:greet', 'world');  // logs: Hello, world!
 
 await context.stop();
 ```
 
-### Redelivery options
+### With boot starter
 
-Pass options to `onException` to control retry behaviour:
-
-```js
-route.onException(TypeError, handler, {
-  handled: true,       // default: true — clears exchange.exception after handler
-  maxAttempts: 3,      // retry the failing step up to 3 additional times
-  redeliveryDelay: 50, // milliseconds between retries
-});
+```bash
+npm install boot-camel-lite-starter @alt-javascript/boot @alt-javascript/cdi @alt-javascript/config
 ```
 
-> **Note:** `maxAttempts` and `redeliveryDelay` are configured on the `Pipeline` level via `RouteDefinition.compile()` options. Per-step retry support is available in `Pipeline` directly; the `onException` route-level API exposes `handled` only — use `Pipeline` directly for fine-grained retry control.
+```javascript
+import { camelLiteStarter } from 'boot-camel-lite-starter';
+import { EphemeralConfig } from '@alt-javascript/config';
+
+const { applicationContext } = await camelLiteStarter({
+  config: new EphemeralConfig({
+    boot: {
+      'camel-lite': {
+        routes: [{
+          definition: {
+            route: {
+              from: { uri: 'direct:hello', steps: [{ log: { simple: '${body}' } }] }
+            }
+          }
+        }]
+      }
+    }
+  })
+});
+
+const ctx = applicationContext.get('camelLiteContext');
+await ctx.ready();
+
+const pt = applicationContext.get('camelProducerTemplate');
+await pt.sendBody('direct:hello', 'world');
+```
+
+### CLI
+
+```bash
+npm install -g camel-lite-cli
+
+camel-lite -r route.yaml -i '{"name":"world"}'
+camel-lite -l json -r route.yaml -i body   # JSON log output
+camel-lite -r route.yaml -d                # daemon mode
+```
+
+## Packages
+
+| Package | Description |
+|---|---|
+| [`camel-lite-core`](packages/camel-lite-core/README.md) | Core framework: `CamelContext`, `RouteBuilder`, `Exchange`, `Pipeline`, `ProducerTemplate`, `ConsumerTemplate`, `RouteLoader` |
+| [`camel-lite-component-direct`](packages/camel-lite-component-direct/README.md) | Synchronous in-process endpoint — `direct:name` |
+| [`camel-lite-component-seda`](packages/camel-lite-component-seda/README.md) | Async in-process queue endpoint — `seda:name?size=100&concurrentConsumers=2` |
+| [`camel-lite-component-log`](packages/camel-lite-component-log/README.md) | Structured logging endpoint — `log:loggerName?level=info` |
+| [`camel-lite-component-file`](packages/camel-lite-component-file/README.md) | File read/write endpoint — `file:/path?fileName=out.txt` |
+| [`camel-lite-component-http`](packages/camel-lite-component-http/README.md) | HTTP producer endpoint — `http://host/path?method=POST` |
+| [`camel-lite-component-ftp`](packages/camel-lite-component-ftp/README.md) | FTP producer/consumer endpoint — `ftp://host/dir?username=u&password=p` |
+| [`camel-lite-component-timer`](packages/camel-lite-component-timer/README.md) | Periodic trigger — `timer:name?period=1000&delay=0&repeatCount=0` |
+| [`camel-lite-component-cron`](packages/camel-lite-component-cron/README.md) | Cron-scheduled trigger — `cron:name?schedule=0 * * * * *` |
+| [`camel-lite-component-amqp`](packages/camel-lite-component-amqp/README.md) | AMQP 1.0 and 0-9-1 messaging — `amqp:queue:name?protocol=amqp10` |
+| [`camel-lite-component-sql`](packages/camel-lite-component-sql/README.md) | SQL query/update endpoint — `sql:SELECT * FROM users?url=jsdbc:sqlite::memory:` |
+| [`camel-lite-component-nosql`](packages/camel-lite-component-nosql/README.md) | NoSQL collection endpoint — `nosql:collection?url=jsnosqlc:memory:&operation=insert` |
+| [`camel-lite-component-master`](packages/camel-lite-component-master/README.md) | Leader election — `master:service?backend=file\|zookeeper\|consul` |
+| [`camel-lite-cli`](packages/camel-lite-cli/README.md) | Command-line runtime — `camel-lite -r route.yaml -i body -d` |
+| [`boot-camel-lite-starter`](packages/boot-camel-lite-starter/README.md) | `@alt-javascript/boot` auto-configuration: core + direct/seda/log/file/http/ftp/timer/cron |
+| [`boot-camel-lite-extras-starter`](packages/boot-camel-lite-extras-starter/README.md) | Boot auto-configuration: amqp/sql/nosql/master |
+
+## Configuration
+
+All components accept configuration via URI parameters. The boot starters additionally support `@alt-javascript/config` properties under the `boot.camel-lite.*` prefix:
+
+```yaml
+boot:
+  camel-lite:
+    direct:
+      enabled: true       # default: true for all bundled schemes
+    seda:
+      enabled: true
+    routes:
+      - definition:
+          route:
+            from:
+              uri: direct:hello
+              steps:
+                - log:
+                    simple: "${body}"
+```
+
+CDI `RouteBuilder` beans are auto-discovered — any CDI bean with a `configure(camelContext)` method is treated as a route builder.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+Apache Camel is copyright The Apache Software Foundation, licensed under the Apache License 2.0.

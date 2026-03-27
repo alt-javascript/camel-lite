@@ -1,0 +1,20 @@
+{
+  "name": "example-boot-camel-lite-hono",
+  "version": "1.0.0",
+  "description": "Example: camel-lite + Hono — REST endpoint → ProducerTemplate → camel-lite route, with timer and master: background routes",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node main.js",
+    "start:text": "node main.js"
+  },
+  "dependencies": {
+    "@alt-javascript/boot": "^3.0.7",
+    "@alt-javascript/boot-hono": "file:../../../boot/packages/boot-hono",
+    "@alt-javascript/cdi": "^3.0.7",
+    "@alt-javascript/config": "^3.0.7",
+    "@alt-javascript/logger": "^3.0.7",
+    "@alt-javascript/common": "^3.0.7",
+    "boot-camel-lite-extras-starter": "*"
+  }
+}

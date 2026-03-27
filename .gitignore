@@ -1,5 +1,6 @@
 
 # ── GSD baseline (auto-generated) ──
+# .gsd is a symlink to a machine-local GSD project store — not trackable
 .gsd
 .DS_Store
 Thumbs.db
@@ -23,6 +24,7 @@ venv/
 target/
 vendor/
 *.log
+*.tgz
 coverage/
 .cache/
 tmp/

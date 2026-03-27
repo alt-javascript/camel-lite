@@ -1,0 +1,77 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [1.0.0] - 2026-03-27
+
+### Added
+
+#### Core (`camel-lite-core`)
+
+- `CamelContext` — component registry, route lifecycle, consumer map, bean registry
+- `RouteBuilder` — fluent DSL for building routes programmatically
+- `RouteDefinition` — per-route DSL: `process`, `to`, `filter`, `transform`, `setBody`, `setHeader`, `setProperty`, `removeHeader`, `choice`/`when`/`otherwise`, `split`, `aggregate`, `marshal`, `unmarshal`, `convertBodyTo`, `bean`, `log`, `stop`, `deadLetterChannel`
+- `Pipeline` — sequential processor chain with configurable error handling (redelivery, dead letter channel, `onException`)
+- `Exchange` / `Message` — in/out message pair with headers, properties, and exception capture
+- `ProducerTemplate` — high-level `sendBody(uri, body)` and `requestBody(uri, body)` APIs
+- `ConsumerTemplate` — high-level `receiveBody(uri, timeoutMs)` polling API (seda: supported)
+- `RouteLoader` — YAML and JSON route definition loader: `loadFile`, `loadString`, `loadStream`, `loadObject`
+- Simple expression language: `${body}`, `${header.X}`, `${exchangeProperty.X}`, `${out.body}`, logical operators, contains, regex
+- `js(code)` and `constant(value)` expression factories
+- `AggregationStrategies` — built-in strategies: `useLatest`, `collect`, `sum`, `groupedExchange`
+- `CycleDetectedError`, `CamelError`, `SedaQueueFullError`, `CamelFilterStopException` — typed errors
+
+#### Components
+
+- **`camel-lite-component-direct`** — synchronous in-process routing with cycle detection
+- **`camel-lite-component-seda`** — async in-process queuing with configurable concurrency and queue size
+- **`camel-lite-component-log`** — structured logging via `@alt-javascript/logger`; per-route logger name and level
+- **`camel-lite-component-file`** — file read (consumer: poll directory) and write (producer: write exchange body)
+- **`camel-lite-component-http`** — HTTP producer: GET/POST/PUT/DELETE with JSON body serialisation
+- **`camel-lite-component-ftp`** — FTP producer and consumer via `basic-ftp`
+- **`camel-lite-component-timer`** — periodic exchange trigger with `period`, `delay`, `repeatCount`; headers: `CamelTimerName`, `CamelTimerFiredTime`, `CamelTimerCounter`
+- **`camel-lite-component-cron`** — cron-scheduled trigger via `node-cron`; 5- and 6-field expressions; timezone support; headers: `CamelCronName`, `CamelCronFiredTime`
+- **`camel-lite-component-amqp`** — AMQP 1.0 (rhea) and AMQP 0-9-1 (amqplib) messaging; producer and consumer
+- **`camel-lite-component-sql`** — SQL query and update via Node.js built-in `node:sqlite`; named and positional parameters
+- **`camel-lite-component-nosql`** — NoSQL collection operations via `@alt-javascript/jsnosqlc`; insert, find, update, delete
+- **`camel-lite-component-master`** — leader election with pluggable `LockStrategy` interface; three backends:
+  - `FileLockStrategy` — exclusive file creation (default, zero external deps)
+  - `ZooKeeperStrategy` — ZooKeeper ephemeral node via `node-zookeeper-client`
+  - `ConsulStrategy` — Consul session + KV acquire via native `fetch`
+  - Headers: `CamelMasterIsLeader`, `CamelMasterService`, `CamelMasterNodeId`
+
+#### CLI (`camel-lite-cli`)
+
+- `camel-lite -r <file|-> [-i <body|->] [-d] [-l text|json]`
+- `-r` — route definition file (`.yaml`, `.yml`, `.json`) or `-` for stdin
+- `-i` — message body to inject, or `-` for stdin (mutually exclusive with `-r -`)
+- `-d` — daemon mode: keep context alive until `SIGINT`/`SIGTERM`
+- `-l` — log output format: `text` (default, human-readable) or `json`
+- All 13 components pre-registered; missing broker dependencies skip gracefully
+
+#### Boot Starters
+
+- **`boot-camel-lite-starter`** — `@alt-javascript/boot` CDI auto-configuration for core + direct/seda/log/file/http/ftp/timer/cron:
+  - `CamelLiteContext` CDI bean — wraps `CamelContext` with async `init()`/`ready()`/`destroy()`
+  - `RouteRegistry` CDI bean — auto-discovers CDI `RouteBuilder` beans (duck-typed `configure(ctx)`); loads `boot.camel-lite.routes[n].definition` objects via `RouteLoader.loadObject()`
+  - Per-scheme `ConfiguredComponent` CDI beans, each gated by `boot.camel-lite.<scheme>.enabled` (default: `true`)
+  - `camelProducerTemplate` and `camelConsumerTemplate` CDI beans
+  - `camelLiteStarter(options)` entry function
+- **`boot-camel-lite-extras-starter`** — extends core starter with amqp/sql/nosql/master components
+  - `camelLiteExtrasStarter(options)` entry function
+
+#### Observability
+
+- All log categories follow the `@alt-javascript/camel-lite/<ClassName>` idiom
+- INFO level: context start/stop, route registration, leader election, component registration
+- DEBUG level: per-message dispatch, timer fires, cron ticks, lock renewal
+- WARN level: lock acquire failure, missing component, stop cleanup error
+- Exchange error captured in `exchange.exception` — pipeline continues to dead letter channel if configured
+
+[Unreleased]: https://github.com/alt-javascript/camel-lite/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/alt-javascript/camel-lite/releases/tag/v1.0.0

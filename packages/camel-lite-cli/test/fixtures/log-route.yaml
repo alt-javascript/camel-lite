@@ -1,0 +1,7 @@
+route:
+  id: cli-log-test
+  from:
+    uri: direct:cli-test
+    steps:
+      - log:
+          simple: "${body}"

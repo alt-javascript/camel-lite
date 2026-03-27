@@ -1,0 +1,58 @@
+routes:
+  - route:
+      id: "full-step-coverage"
+      from:
+        uri: "direct:loader-test"
+        steps:
+          - setBody:
+              constant: "initial-value"
+          - setHeader:
+              name: "X-Type"
+              simple: "${body}"
+          - setProperty:
+              name: "savedBody"
+              js: "exchange.in.body"
+          - removeHeader:
+              name: "X-Type"
+          - setBody:
+              constant:
+                amount: 100
+                currency: "USD"
+          - marshal:
+              format: json
+          - unmarshal:
+              format: json
+          - convertBodyTo: String
+          - log: "route step executed"
+          - stop: {}
+
+  - route:
+      id: "choice-route"
+      from:
+        uri: "direct:choice-test"
+        steps:
+          - choice:
+              when:
+                - simple: "${header.type} == 'A'"
+                  to: "direct:branch-a"
+                - simple: "${header.type} == 'B'"
+                  to: "direct:branch-b"
+              otherwise:
+                to: "direct:branch-default"
+
+  - route:
+      id: "bean-route"
+      from:
+        uri: "direct:bean-test"
+        steps:
+          - bean: "myTestBean"
+
+  - route:
+      id: "filter-route"
+      from:
+        uri: "direct:filter-test"
+        steps:
+          - filter:
+              simple: "${header.pass} == 'yes'"
+          - setBody:
+              constant: "filtered-through"

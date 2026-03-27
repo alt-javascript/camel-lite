@@ -1,6 +1,7 @@
 {
-  "name": "mammal",
-  "version": "0.0.1",
+  "name": "camel-lite",
+  "version": "1.0.0",
+  "type": "module",
   "private": true,
   "workspaces": [
     "packages/*"

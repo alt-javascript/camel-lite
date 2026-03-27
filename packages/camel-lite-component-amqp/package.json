@@ -1,0 +1,19 @@
+{
+  "name": "camel-lite-component-amqp",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "camel-lite-core": "*",
+    "rhea": "^3.0.4",
+    "amqplib": "^0.10.0",
+    "@alt-javascript/logger": "^3.0.7",
+    "@alt-javascript/config": "^3.0.7",
+    "@alt-javascript/common": "^3.0.7"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
