@@ -31,16 +31,28 @@
     "commander": "^12.0.0"
   },
   "keywords": [
+    "alt-javascript",
     "camel",
     "camel-lite",
+    "eai",
     "eip",
+    "integration",
+    "cli",
     "routing",
-    "cli"
+    "yaml"
   ],
   "author": "Craig Parravicini",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/alt-javascript/camel-lite"
+  },
+  "contributors": [
+    "Claude (Anthropic)",
+    "Apache Camel — design inspiration and pattern source"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

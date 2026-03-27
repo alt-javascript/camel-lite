@@ -16,5 +16,21 @@
     "@alt-javascript/logger": "^3.0.7",
     "@alt-javascript/common": "^3.0.7",
     "boot-camel-lite-extras-starter": "*"
-  }
+  },
+  "author": "Craig Parravicini",
+  "contributors": [
+    "Claude (Anthropic)",
+    "Apache Camel — design inspiration and pattern source"
+  ],
+  "keywords": [
+    "alt-javascript",
+    "camel",
+    "camel-lite",
+    "eai",
+    "eip",
+    "integration",
+    "example",
+    "hono",
+    "boot"
+  ]
 }

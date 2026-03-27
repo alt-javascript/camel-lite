@@ -17,5 +17,25 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/alt-javascript/camel-lite"
+  },
+  "author": "Craig Parravicini",
+  "contributors": [
+    "Claude (Anthropic)",
+    "Apache Camel — design inspiration and pattern source"
+  ],
+  "keywords": [
+    "alt-javascript",
+    "camel",
+    "camel-lite",
+    "eai",
+    "eip",
+    "integration",
+    "timer",
+    "scheduler",
+    "component"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }
