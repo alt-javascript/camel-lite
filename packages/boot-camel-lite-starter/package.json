@@ -1,6 +1,6 @@
 {
   "name": "boot-camel-lite-starter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "exports": {
     ".": "./index.js"
@@ -11,15 +11,15 @@
     "@alt-javascript/config": "^3.0.7",
     "@alt-javascript/logger": "^3.0.7",
     "@alt-javascript/common": "^3.0.7",
-    "camel-lite-core": "1.0.0",
-    "camel-lite-component-direct": "1.0.0",
-    "camel-lite-component-seda": "1.0.0",
-    "camel-lite-component-log": "1.0.0",
-    "camel-lite-component-file": "1.0.0",
-    "camel-lite-component-http": "1.0.0",
-    "camel-lite-component-ftp": "1.0.0",
-    "camel-lite-component-timer": "1.0.0",
-    "camel-lite-component-cron": "1.0.0"
+    "camel-lite-core": "1.0.1",
+    "camel-lite-component-direct": "1.0.1",
+    "camel-lite-component-seda": "1.0.1",
+    "camel-lite-component-log": "1.0.1",
+    "camel-lite-component-file": "1.0.1",
+    "camel-lite-component-http": "1.0.1",
+    "camel-lite-component-ftp": "1.0.1",
+    "camel-lite-component-timer": "1.0.1",
+    "camel-lite-component-cron": "1.0.1"
   },
   "scripts": {
     "test": "node --test"

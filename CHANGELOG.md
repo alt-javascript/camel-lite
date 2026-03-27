@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-03-27
+
+### Fixed
+
+- Added `repository` field to all publishable workspace packages — required for npm provenance validation
+- Pinned workspace cross-dependencies to explicit version (`1.0.0`) instead of `*` to prevent npm resolving them as git SSH URLs outside the monorepo
+- Added `author`, `contributors`, `keywords`, and `publishConfig` to all workspace packages
+- CI publish workflow: removed non-existent `npm run build` step, added `--access public --provenance` flags and `id-token: write` permission
+
 ## [1.0.0] - 2026-03-27
 
 ### Added
@@ -73,5 +82,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WARN level: lock acquire failure, missing component, stop cleanup error
 - Exchange error captured in `exchange.exception` — pipeline continues to dead letter channel if configured
 
-[Unreleased]: https://github.com/alt-javascript/camel-lite/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/alt-javascript/camel-lite/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/alt-javascript/camel-lite/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/alt-javascript/camel-lite/releases/tag/v1.0.0
