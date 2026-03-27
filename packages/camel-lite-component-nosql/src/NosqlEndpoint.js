@@ -1,4 +1,4 @@
-import { Endpoint } from 'camel-lite-core';
+import { Endpoint } from '@alt-javascript/camel-lite-core';
 import { NosqlProducer } from './NosqlProducer.js';
 import { NosqlConsumer } from './NosqlConsumer.js';
 

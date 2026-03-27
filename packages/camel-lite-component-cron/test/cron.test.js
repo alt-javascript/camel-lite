@@ -1,6 +1,6 @@
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { CamelContext, CamelError } from 'camel-lite-core';
+import { CamelContext, CamelError } from '@alt-javascript/camel-lite-core';
 import { CronComponent, CronEndpoint } from '../src/index.js';
 
 // ---------------------------------------------------------------------------
@@ -64,7 +64,7 @@ describe('CronConsumer: fires exchanges', () => {
     ctx.addComponent('cron', new CronComponent());
 
     const fired = [];
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
     const builder = new RouteBuilder();
     // every-second cron (6-field with seconds support)
     builder.from('cron:job?schedule=* * * * * *').process(ex => {
@@ -92,7 +92,7 @@ describe('CronConsumer: fires exchanges', () => {
     ctx.addComponent('cron', new CronComponent());
 
     let fired = 0;
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
     const builder = new RouteBuilder();
     builder.from('cron:stopper?schedule=* * * * * *').process(() => { fired++; });
     ctx.addRoutes(builder);

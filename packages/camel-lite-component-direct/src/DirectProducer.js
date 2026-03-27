@@ -1,5 +1,5 @@
-import { Producer } from 'camel-lite-core';
-import { CycleDetectedError } from 'camel-lite-core';
+import { Producer } from '@alt-javascript/camel-lite-core';
+import { CycleDetectedError } from '@alt-javascript/camel-lite-core';
 import { LoggerFactory } from '@alt-javascript/logger';
 
 const log = LoggerFactory.getLogger('@alt-javascript/camel-lite/DirectProducer');

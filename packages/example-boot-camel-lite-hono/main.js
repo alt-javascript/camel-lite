@@ -20,8 +20,8 @@
 import { Boot } from '@alt-javascript/boot';
 import { ApplicationContext, Context, Singleton } from '@alt-javascript/cdi';
 import { honoStarter } from '@alt-javascript/boot-hono';
-import { camelLiteAutoConfiguration } from 'boot-camel-lite-starter';
-import { camelLiteExtrasAutoConfiguration } from 'boot-camel-lite-extras-starter';
+import { camelLiteAutoConfiguration } from '@alt-javascript/boot-camel-lite-starter';
+import { camelLiteExtrasAutoConfiguration } from '@alt-javascript/boot-camel-lite-extras-starter';
 import { MessageController } from './src/MessageController.js';
 import { CamelRoutes } from './src/CamelRoutes.js';
 

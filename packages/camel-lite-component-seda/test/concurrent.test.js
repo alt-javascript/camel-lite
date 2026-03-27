@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { CamelContext, Exchange, RouteDefinition, SedaQueueFullError } from 'camel-lite-core';
-import { DirectComponent } from 'camel-lite-component-direct';
-import { SedaComponent, SedaQueue, SedaProducer, SedaConsumer, SedaEndpoint } from 'camel-lite-component-seda';
+import { CamelContext, Exchange, RouteDefinition, SedaQueueFullError } from '@alt-javascript/camel-lite-core';
+import { DirectComponent } from '@alt-javascript/camel-lite-component-direct';
+import { SedaComponent, SedaQueue, SedaProducer, SedaConsumer, SedaEndpoint } from '@alt-javascript/camel-lite-component-seda';
 
 function makeLatch(count) {
   let resolve;

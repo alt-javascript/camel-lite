@@ -24,7 +24,7 @@
  */
 
 import { LoggerFactory } from '@alt-javascript/logger';
-import { CamelContext, RouteLoader, ProducerTemplate, ConsumerTemplate } from 'camel-lite-core';
+import { CamelContext, RouteLoader, ProducerTemplate, ConsumerTemplate } from '@alt-javascript/camel-lite-core';
 
 const log = LoggerFactory.getLogger('@alt-javascript/camel-lite/boot/CamelLiteAutoConfiguration');
 
@@ -262,14 +262,14 @@ export class CdiConsumerTemplate {
 const BUNDLED_SCHEMES = ['direct', 'seda', 'log', 'file', 'http', 'ftp', 'timer', 'cron'];
 
 const COMPONENT_IMPORTS = {
-  direct: () => import('camel-lite-component-direct').then(m => m.DirectComponent),
-  seda:   () => import('camel-lite-component-seda').then(m => m.SedaComponent),
-  log:    () => import('camel-lite-component-log').then(m => m.LogComponent),
-  file:   () => import('camel-lite-component-file').then(m => m.FileComponent),
-  http:   () => import('camel-lite-component-http').then(m => m.HttpComponent),
-  ftp:    () => import('camel-lite-component-ftp').then(m => m.FtpComponent),
-  timer:  () => import('camel-lite-component-timer').then(m => m.TimerComponent),
-  cron:   () => import('camel-lite-component-cron').then(m => m.CronComponent),
+  direct: () => import('@alt-javascript/camel-lite-component-direct').then(m => m.DirectComponent),
+  seda:   () => import('@alt-javascript/camel-lite-component-seda').then(m => m.SedaComponent),
+  log:    () => import('@alt-javascript/camel-lite-component-log').then(m => m.LogComponent),
+  file:   () => import('@alt-javascript/camel-lite-component-file').then(m => m.FileComponent),
+  http:   () => import('@alt-javascript/camel-lite-component-http').then(m => m.HttpComponent),
+  ftp:    () => import('@alt-javascript/camel-lite-component-ftp').then(m => m.FtpComponent),
+  timer:  () => import('@alt-javascript/camel-lite-component-timer').then(m => m.TimerComponent),
+  cron:   () => import('@alt-javascript/camel-lite-component-cron').then(m => m.CronComponent),
 };
 
 /**

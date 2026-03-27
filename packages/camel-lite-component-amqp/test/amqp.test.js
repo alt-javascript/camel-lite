@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { Exchange, CamelContext, RouteBuilder } from 'camel-lite-core';
-import { AmqpComponent, JmsMapper } from 'camel-lite-component-amqp';
+import { Exchange, CamelContext, RouteBuilder } from '@alt-javascript/camel-lite-core';
+import { AmqpComponent, JmsMapper } from '@alt-javascript/camel-lite-component-amqp';
 
 // ---------------------------------------------------------------------------
 // T02: AmqpComponent URI parsing + AmqpProducer unit tests

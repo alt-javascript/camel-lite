@@ -1,4 +1,4 @@
-import { SedaQueueFullError } from 'camel-lite-core';
+import { SedaQueueFullError } from '@alt-javascript/camel-lite-core';
 
 class SedaQueue {
   #items = [];

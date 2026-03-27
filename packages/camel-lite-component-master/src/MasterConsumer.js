@@ -1,4 +1,4 @@
-import { Consumer, Exchange } from 'camel-lite-core';
+import { Consumer, Exchange } from '@alt-javascript/camel-lite-core';
 import { LoggerFactory } from '@alt-javascript/logger';
 
 const log = LoggerFactory.getLogger('@alt-javascript/camel-lite/MasterConsumer');

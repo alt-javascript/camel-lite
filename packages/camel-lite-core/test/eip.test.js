@@ -5,7 +5,7 @@ import {
   simple, js, normaliseExpression,
   AggregationStrategies, CamelFilterStopException,
 } from '../src/index.js';
-import { DirectComponent } from 'camel-lite-component-direct';
+import { DirectComponent } from '@alt-javascript/camel-lite-component-direct';
 
 // ---------------------------------------------------------------------------
 // Expression builders: simple() and js()

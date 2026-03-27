@@ -122,7 +122,7 @@ await configureLogging(logMode);
 
 (async () => {
   // Deferred imports so the log formatter is set before any getLogger() calls
-  const { RouteLoader, ProducerTemplate } = await import('camel-lite-core');
+  const { RouteLoader, ProducerTemplate } = await import('@alt-javascript/camel-lite-core');
   const { CamelRuntime } = await import('../src/index.js');
 
   let routeBuilder;

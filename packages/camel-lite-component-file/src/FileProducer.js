@@ -1,4 +1,4 @@
-import { Producer } from 'camel-lite-core';
+import { Producer } from '@alt-javascript/camel-lite-core';
 import { LoggerFactory } from '@alt-javascript/logger';
 import { writeFile, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';

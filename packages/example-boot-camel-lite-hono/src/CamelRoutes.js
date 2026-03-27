@@ -7,7 +7,7 @@
  *   2. timer:heartbeat  — fires every 5 seconds
  *   3. master:example   — leader election; logs when this node becomes leader
  */
-import { RouteBuilder } from 'camel-lite-core';
+import { RouteBuilder } from '@alt-javascript/camel-lite-core';
 
 export class CamelRoutes extends RouteBuilder {
   static qualifier = 'example-boot-camel-lite-hono/CamelRoutes';

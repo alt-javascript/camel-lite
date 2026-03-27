@@ -1,4 +1,4 @@
-import { Endpoint } from 'camel-lite-core';
+import { Endpoint } from '@alt-javascript/camel-lite-core';
 
 /**
  * Shared base for AMQP endpoints.

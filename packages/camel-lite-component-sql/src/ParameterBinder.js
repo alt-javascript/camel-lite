@@ -18,7 +18,7 @@
 export const ParameterBinder = {
   /**
    * Extract bind params from the exchange.
-   * @param {import('camel-lite-core').Exchange} exchange
+   * @param {import('@alt-javascript/camel-lite-core').Exchange} exchange
    * @returns {object}  key→value map
    */
   extractParams(exchange) {

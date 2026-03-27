@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { unlink } from 'node:fs/promises';
-import { CamelContext } from 'camel-lite-core';
+import { CamelContext } from '@alt-javascript/camel-lite-core';
 import { MasterComponent, FileLockStrategy } from '../src/index.js';
 
 const TEST_LOCK_DIR = join(tmpdir(), 'camel-lite-master-test-' + process.pid);
@@ -96,7 +96,7 @@ describe('MasterConsumer: file backend leader election', () => {
     ctx.addComponent('master', new MasterComponent());
 
     const received = [];
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
     const b = new RouteBuilder();
     b.from(`master:integ-svc?backend=file&lockDir=${TEST_LOCK_DIR}&pollInterval=100&nodeId=nodeInteg`).process(ex => {
       received.push({
@@ -125,7 +125,7 @@ describe('MasterConsumer: file backend leader election', () => {
     ctx2.addComponent('master', new MasterComponent());
 
     const wins1 = [], wins2 = [];
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
 
     const b1 = new RouteBuilder();
     b1.from(`master:integ-svc?backend=file&lockDir=${TEST_LOCK_DIR}&pollInterval=100&nodeId=node1`).process(ex => {

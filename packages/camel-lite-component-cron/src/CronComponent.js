@@ -1,4 +1,4 @@
-import { Component } from 'camel-lite-core';
+import { Component } from '@alt-javascript/camel-lite-core';
 import CronEndpoint from './CronEndpoint.js';
 
 class CronComponent extends Component {

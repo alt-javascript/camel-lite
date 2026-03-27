@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { CamelContext, Exchange, Pipeline, RouteDefinition } from 'camel-lite-core';
-import { DirectComponent } from 'camel-lite-component-direct';
-import { SedaComponent, SedaEndpoint, SedaProducer, SedaConsumer, SedaQueue } from 'camel-lite-component-seda';
+import { CamelContext, Exchange, Pipeline, RouteDefinition } from '@alt-javascript/camel-lite-core';
+import { DirectComponent } from '@alt-javascript/camel-lite-component-direct';
+import { SedaComponent, SedaEndpoint, SedaProducer, SedaConsumer, SedaQueue } from '@alt-javascript/camel-lite-component-seda';
 
 // Promise latch — resolves once `count` items have been processed
 function makeLatch(count) {

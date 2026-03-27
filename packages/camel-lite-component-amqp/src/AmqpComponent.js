@@ -1,4 +1,4 @@
-import { Component } from 'camel-lite-core';
+import { Component } from '@alt-javascript/camel-lite-core';
 import { LoggerFactory } from '@alt-javascript/logger';
 import { Amqp10Endpoint } from './Amqp10Endpoint.js';
 import { Amqp091Endpoint } from './Amqp091Endpoint.js';

@@ -1,4 +1,4 @@
-import { Producer } from 'camel-lite-core';
+import { Producer } from '@alt-javascript/camel-lite-core';
 import { LoggerFactory } from '@alt-javascript/logger';
 
 const VALID_LEVELS = new Set(['info', 'warn', 'error', 'debug']);

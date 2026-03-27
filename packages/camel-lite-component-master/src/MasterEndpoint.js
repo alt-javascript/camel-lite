@@ -1,4 +1,4 @@
-import { Endpoint, CamelError } from 'camel-lite-core';
+import { Endpoint, CamelError } from '@alt-javascript/camel-lite-core';
 import { randomUUID } from 'node:crypto';
 import MasterConsumer from './MasterConsumer.js';
 

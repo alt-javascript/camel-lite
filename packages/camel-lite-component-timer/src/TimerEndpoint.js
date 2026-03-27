@@ -1,4 +1,4 @@
-import { Endpoint } from 'camel-lite-core';
+import { Endpoint } from '@alt-javascript/camel-lite-core';
 import TimerConsumer from './TimerConsumer.js';
 
 class TimerEndpoint extends Endpoint {

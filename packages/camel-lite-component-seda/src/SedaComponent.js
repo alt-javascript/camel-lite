@@ -1,4 +1,4 @@
-import { Component } from 'camel-lite-core';
+import { Component } from '@alt-javascript/camel-lite-core';
 import SedaEndpoint from './SedaEndpoint.js';
 
 class SedaComponent extends Component {

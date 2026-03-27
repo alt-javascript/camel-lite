@@ -1,4 +1,4 @@
-import { Endpoint } from 'camel-lite-core';
+import { Endpoint } from '@alt-javascript/camel-lite-core';
 import SedaProducer from './SedaProducer.js';
 import SedaConsumer from './SedaConsumer.js';
 import SedaQueue from './SedaQueue.js';

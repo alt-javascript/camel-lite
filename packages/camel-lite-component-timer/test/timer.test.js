@@ -1,6 +1,6 @@
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { CamelContext } from 'camel-lite-core';
+import { CamelContext } from '@alt-javascript/camel-lite-core';
 import { TimerComponent, TimerEndpoint } from '../src/index.js';
 
 // ---------------------------------------------------------------------------
@@ -56,7 +56,7 @@ describe('TimerConsumer: fires exchanges', () => {
     ctx.addComponent('timer', new TimerComponent());
 
     const fired = [];
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
     const builder = new RouteBuilder();
     builder.from('timer:tick?period=30&repeatCount=3').process(ex => {
       fired.push({
@@ -87,7 +87,7 @@ describe('TimerConsumer: fires exchanges', () => {
     ctx.addComponent('timer', new TimerComponent());
 
     let fired = 0;
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
     const builder = new RouteBuilder();
     builder.from('timer:stopper?period=50').process(() => { fired++; });
     ctx.addRoutes(builder);
@@ -110,7 +110,7 @@ describe('TimerConsumer: fires exchanges', () => {
 
     const times = [];
     const start = Date.now();
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
     const builder = new RouteBuilder();
     builder.from('timer:delayed?period=1000&delay=150&repeatCount=1').process(() => {
       times.push(Date.now() - start);
@@ -130,7 +130,7 @@ describe('TimerConsumer: fires exchanges', () => {
     ctx.addComponent('timer', new TimerComponent());
 
     let firedTime;
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
     const builder = new RouteBuilder();
     builder.from('timer:ts?period=50&repeatCount=1').process(ex => {
       firedTime = ex.in.getHeader('CamelTimerFiredTime');

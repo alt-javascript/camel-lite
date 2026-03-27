@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { CamelContext, Exchange, RouteDefinition } from 'camel-lite-core';
-import { DirectComponent } from 'camel-lite-component-direct';
-import { LogComponent } from 'camel-lite-component-log';
+import { CamelContext, Exchange, RouteDefinition } from '@alt-javascript/camel-lite-core';
+import { DirectComponent } from '@alt-javascript/camel-lite-component-direct';
+import { LogComponent } from '@alt-javascript/camel-lite-component-log';
 
 describe('End-to-end integration: direct: + log: components', () => {
   it('routes an exchange through two chained direct: routes ending at log:', async () => {

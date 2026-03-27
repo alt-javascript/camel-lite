@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { Exchange, Message, CamelContext, Component, Pipeline, SedaQueueFullError } from 'camel-lite-core';
-import { SedaComponent, SedaEndpoint, SedaProducer, SedaConsumer, SedaQueue } from 'camel-lite-component-seda';
+import { Exchange, Message, CamelContext, Component, Pipeline, SedaQueueFullError } from '@alt-javascript/camel-lite-core';
+import { SedaComponent, SedaEndpoint, SedaProducer, SedaConsumer, SedaQueue } from '@alt-javascript/camel-lite-component-seda';
 
 describe('cross-package import integration', () => {
   it('Exchange imported from camel-lite-core constructs correctly', () => {

@@ -121,7 +121,7 @@ describe('RouteRegistry: CDI RouteBuilder bean discovery', () => {
     const { ApplicationContext } = await import('@alt-javascript/cdi');
     const { EphemeralConfig } = await import('@alt-javascript/config');
     const { camelLiteAutoConfiguration } = await import('../index.js');
-    const { RouteBuilder } = await import('camel-lite-core');
+    const { RouteBuilder } = await import('@alt-javascript/camel-lite-core');
 
     const received = [];
 

@@ -5,7 +5,7 @@
  * Extends boot-camel-lite-starter (core + direct/seda/log/file/http/ftp/timer/cron).
  *
  * Usage:
- *   import { camelLiteExtrasStarter } from 'boot-camel-lite-extras-starter';
+ *   import { camelLiteExtrasStarter } from '@alt-javascript/boot-camel-lite-extras-starter';
  *
  *   const { applicationContext } = await camelLiteExtrasStarter({
  *     config: new EphemeralConfig({
@@ -31,7 +31,7 @@ import { ApplicationContext } from '@alt-javascript/cdi';
 import { EphemeralConfig } from '@alt-javascript/config';
 import {
   camelLiteAutoConfiguration,
-} from 'boot-camel-lite-starter';
+} from '@alt-javascript/boot-camel-lite-starter';
 import {
   camelLiteExtrasAutoConfiguration,
 } from './src/CamelLiteExtrasAutoConfiguration.js';

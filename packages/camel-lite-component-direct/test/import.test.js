@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { Exchange, Message, CamelContext, Component, Pipeline, CycleDetectedError } from 'camel-lite-core';
-import { DirectComponent, DirectEndpoint, DirectProducer, DirectConsumer } from 'camel-lite-component-direct';
+import { Exchange, Message, CamelContext, Component, Pipeline, CycleDetectedError } from '@alt-javascript/camel-lite-core';
+import { DirectComponent, DirectEndpoint, DirectProducer, DirectConsumer } from '@alt-javascript/camel-lite-component-direct';
 
 describe('cross-package import integration', () => {
   it('Exchange imported from camel-lite-core constructs correctly', () => {

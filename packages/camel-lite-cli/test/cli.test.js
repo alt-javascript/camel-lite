@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 import { Readable } from 'node:stream';
 import { CamelRuntime } from '../src/index.js';
-import { RouteLoader, ProducerTemplate } from 'camel-lite-core';
+import { RouteLoader, ProducerTemplate } from '@alt-javascript/camel-lite-core';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURE = join(__dirname, 'fixtures', 'log-route.yaml');

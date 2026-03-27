@@ -20,7 +20,7 @@
  */
 
 import { LoggerFactory } from '@alt-javascript/logger';
-import { PREFIX } from 'boot-camel-lite-starter';
+import { PREFIX } from '@alt-javascript/boot-camel-lite-starter';
 
 const log = LoggerFactory.getLogger('@alt-javascript/camel-lite/boot/CamelLiteExtrasAutoConfiguration');
 
@@ -55,10 +55,10 @@ function isEnabled(config, scheme) {
 const EXTRAS_SCHEMES = ['amqp', 'sql', 'nosql', 'master'];
 
 const EXTRAS_IMPORTS = {
-  amqp:   () => import('camel-lite-component-amqp').then(m => m.AmqpComponent),
-  sql:    () => import('camel-lite-component-sql').then(m => m.SqlComponent),
-  nosql:  () => import('camel-lite-component-nosql').then(m => m.NosqlComponent),
-  master: () => import('camel-lite-component-master').then(m => m.MasterComponent),
+  amqp:   () => import('@alt-javascript/camel-lite-component-amqp').then(m => m.AmqpComponent),
+  sql:    () => import('@alt-javascript/camel-lite-component-sql').then(m => m.SqlComponent),
+  nosql:  () => import('@alt-javascript/camel-lite-component-nosql').then(m => m.NosqlComponent),
+  master: () => import('@alt-javascript/camel-lite-component-master').then(m => m.MasterComponent),
 };
 
 /**

@@ -1,4 +1,4 @@
-import { Endpoint } from 'camel-lite-core';
+import { Endpoint } from '@alt-javascript/camel-lite-core';
 import DirectProducer from './DirectProducer.js';
 import DirectConsumer from './DirectConsumer.js';
 

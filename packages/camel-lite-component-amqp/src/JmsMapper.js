@@ -21,7 +21,7 @@
 export const JmsMapper = {
   /**
    * Copy JMS headers from exchange to an outbound AMQP 1.0 (rhea) message object.
-   * @param {import('camel-lite-core').Exchange} exchange
+   * @param {import('@alt-javascript/camel-lite-core').Exchange} exchange
    * @param {object} message  - rhea message object (mutated in place)
    */
   toAmqp10(exchange, message) {
@@ -57,7 +57,7 @@ export const JmsMapper = {
   /**
    * Copy AMQP 1.0 (rhea) message properties to JMS headers on the exchange.
    * @param {object} message  - rhea message object
-   * @param {import('camel-lite-core').Exchange} exchange
+   * @param {import('@alt-javascript/camel-lite-core').Exchange} exchange
    */
   fromAmqp10(message, exchange) {
     const props = message.properties ?? {};
@@ -75,7 +75,7 @@ export const JmsMapper = {
 
   /**
    * Copy JMS headers from exchange to an outbound amqplib 0-9-1 message options object.
-   * @param {import('camel-lite-core').Exchange} exchange
+   * @param {import('@alt-javascript/camel-lite-core').Exchange} exchange
    * @param {object} options  - amqplib sendToQueue options (mutated in place)
    */
   toAmqp091(exchange, options) {
@@ -103,7 +103,7 @@ export const JmsMapper = {
   /**
    * Copy amqplib 0-9-1 message properties to JMS headers on the exchange.
    * @param {object} msg  - amqplib message object (msg.properties)
-   * @param {import('camel-lite-core').Exchange} exchange
+   * @param {import('@alt-javascript/camel-lite-core').Exchange} exchange
    */
   fromAmqp091(msg, exchange) {
     const props = msg.properties ?? {};

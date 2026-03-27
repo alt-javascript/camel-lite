@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { Writable } from 'node:stream';
-import { CamelContext, Exchange, Component } from 'camel-lite-core';
-import { FtpComponent, FtpEndpoint, FtpProducer, FtpConsumer } from 'camel-lite-component-ftp';
+import { CamelContext, Exchange, Component } from '@alt-javascript/camel-lite-core';
+import { FtpComponent, FtpEndpoint, FtpProducer, FtpConsumer } from '@alt-javascript/camel-lite-component-ftp';
 
 // Mock FtpClient — records calls, no network activity
 class MockFtpClient {

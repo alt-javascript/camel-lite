@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { SedaQueue } from '../src/SedaQueue.js';
-import { SedaQueueFullError } from 'camel-lite-core';
+import { SedaQueueFullError } from '@alt-javascript/camel-lite-core';
 
 describe('SedaQueue', () => {
   it('enqueue then dequeue returns the item', async () => {

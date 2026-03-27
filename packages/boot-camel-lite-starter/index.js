@@ -5,7 +5,7 @@
  * Bundles: core + direct, seda, log, file, http, ftp, timer, cron.
  *
  * Usage:
- *   import { camelLiteStarter } from 'boot-camel-lite-starter';
+ *   import { camelLiteStarter } from '@alt-javascript/boot-camel-lite-starter';
  *
  *   const { applicationContext } = await camelLiteStarter({
  *     config: {

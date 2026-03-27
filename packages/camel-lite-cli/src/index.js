@@ -1,5 +1,5 @@
 import { LoggerFactory } from '@alt-javascript/logger';
-import { CamelContext } from 'camel-lite-core';
+import { CamelContext } from '@alt-javascript/camel-lite-core';
 import { registerAllComponents } from './components.js';
 
 const log = LoggerFactory.getLogger('@alt-javascript/camel-lite/cli/CamelRuntime');
@@ -13,7 +13,7 @@ class CamelRuntime {
 
   /**
    * Build a CamelContext with all bundled components registered and routes loaded.
-   * @param {import('camel-lite-core').RouteBuilder} routeBuilder
+   * @param {import('@alt-javascript/camel-lite-core').RouteBuilder} routeBuilder
    * @returns {Promise<CamelContext>}
    */
   async createContext(routeBuilder) {

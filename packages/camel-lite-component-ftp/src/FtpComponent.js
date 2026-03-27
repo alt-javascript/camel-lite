@@ -1,4 +1,4 @@
-import { Component } from 'camel-lite-core';
+import { Component } from '@alt-javascript/camel-lite-core';
 import FtpEndpoint from './FtpEndpoint.js';
 
 class FtpComponent extends Component {

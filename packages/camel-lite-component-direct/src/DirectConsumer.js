@@ -1,4 +1,4 @@
-import { Consumer } from 'camel-lite-core';
+import { Consumer } from '@alt-javascript/camel-lite-core';
 
 class DirectConsumer extends Consumer {
   #uri;

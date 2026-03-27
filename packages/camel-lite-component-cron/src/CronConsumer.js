@@ -1,4 +1,4 @@
-import { Consumer, Exchange } from 'camel-lite-core';
+import { Consumer, Exchange } from '@alt-javascript/camel-lite-core';
 import { schedule as cronSchedule } from 'node-cron';
 import { LoggerFactory } from '@alt-javascript/logger';
 

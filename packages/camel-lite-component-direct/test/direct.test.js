@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { Exchange, CamelContext, Pipeline, CycleDetectedError } from 'camel-lite-core';
-import { DirectComponent, DirectEndpoint, DirectProducer, DirectConsumer } from 'camel-lite-component-direct';
+import { Exchange, CamelContext, Pipeline, CycleDetectedError } from '@alt-javascript/camel-lite-core';
+import { DirectComponent, DirectEndpoint, DirectProducer, DirectConsumer } from '@alt-javascript/camel-lite-component-direct';
 
 // Helper: build a minimal pipeline that sets a property on the exchange
 function mutatingPipeline(key, value) {

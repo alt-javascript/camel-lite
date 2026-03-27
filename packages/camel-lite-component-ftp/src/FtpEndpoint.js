@@ -1,4 +1,4 @@
-import { Endpoint } from 'camel-lite-core';
+import { Endpoint } from '@alt-javascript/camel-lite-core';
 import FtpProducer from './FtpProducer.js';
 import FtpConsumer from './FtpConsumer.js';
 import { createFtpClient } from './FtpClientFactory.js';

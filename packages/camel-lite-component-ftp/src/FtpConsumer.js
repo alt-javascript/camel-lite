@@ -1,4 +1,4 @@
-import { Consumer, Exchange } from 'camel-lite-core';
+import { Consumer, Exchange } from '@alt-javascript/camel-lite-core';
 import { LoggerFactory } from '@alt-javascript/logger';
 import { Writable } from 'node:stream';
 

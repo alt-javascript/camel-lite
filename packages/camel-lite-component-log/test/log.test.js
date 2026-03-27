@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { Exchange } from 'camel-lite-core';
-import { LogComponent, LogEndpoint, LogProducer } from 'camel-lite-component-log';
+import { Exchange } from '@alt-javascript/camel-lite-core';
+import { LogComponent, LogEndpoint, LogProducer } from '@alt-javascript/camel-lite-component-log';
 
 describe('LogComponent', () => {
   it('can be constructed', () => {

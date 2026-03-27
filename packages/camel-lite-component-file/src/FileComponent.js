@@ -1,4 +1,4 @@
-import { Component } from 'camel-lite-core';
+import { Component } from '@alt-javascript/camel-lite-core';
 import FileEndpoint from './FileEndpoint.js';
 
 class FileComponent extends Component {

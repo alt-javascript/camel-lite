@@ -1,10 +1,10 @@
 import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
-import { Exchange, CamelContext } from 'camel-lite-core';
+import { Exchange, CamelContext } from '@alt-javascript/camel-lite-core';
 import { ClientDataSource } from '@alt-javascript/jsnosqlc-core';
 // Self-registers the in-memory driver with DriverManager on import
 import '@alt-javascript/jsnosqlc-memory';
-import { NosqlComponent, Filter } from 'camel-lite-component-nosql';
+import { NosqlComponent, Filter } from '@alt-javascript/camel-lite-component-nosql';
 
 // ---------------------------------------------------------------------------
 // Helpers

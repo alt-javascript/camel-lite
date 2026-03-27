@@ -1,4 +1,4 @@
-import { Component } from 'camel-lite-core';
+import { Component } from '@alt-javascript/camel-lite-core';
 import HttpEndpoint from './HttpEndpoint.js';
 
 class HttpComponent extends Component {

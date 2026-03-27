@@ -1,4 +1,4 @@
-import { Component } from 'camel-lite-core';
+import { Component } from '@alt-javascript/camel-lite-core';
 import LogEndpoint from './LogEndpoint.js';
 
 class LogComponent extends Component {

@@ -1,4 +1,4 @@
-import { Producer } from 'camel-lite-core';
+import { Producer } from '@alt-javascript/camel-lite-core';
 import { LoggerFactory } from '@alt-javascript/logger';
 import { JmsMapper } from './JmsMapper.js';
 import { connect } from './AmqplibClientFactory.js';

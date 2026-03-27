@@ -4,8 +4,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { readFile, mkdir, writeFile, rm, access } from 'node:fs/promises';
-import { CamelContext, Exchange, Component } from 'camel-lite-core';
-import { FileComponent, FileEndpoint, FileProducer, FileConsumer } from 'camel-lite-component-file';
+import { CamelContext, Exchange, Component } from '@alt-javascript/camel-lite-core';
+import { FileComponent, FileEndpoint, FileProducer, FileConsumer } from '@alt-javascript/camel-lite-component-file';
 
 function makeTmpDir() {
   return join(tmpdir(), 'camel-lite-file-test-' + randomUUID());

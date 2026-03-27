@@ -1,4 +1,4 @@
-import { Endpoint } from 'camel-lite-core';
+import { Endpoint } from '@alt-javascript/camel-lite-core';
 import HttpProducer from './HttpProducer.js';
 
 class HttpEndpoint extends Endpoint {

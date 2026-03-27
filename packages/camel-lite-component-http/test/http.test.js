@@ -1,8 +1,8 @@
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { CamelContext, Exchange, Component } from 'camel-lite-core';
-import { HttpComponent, HttpEndpoint, HttpProducer } from 'camel-lite-component-http';
+import { CamelContext, Exchange, Component } from '@alt-javascript/camel-lite-core';
+import { HttpComponent, HttpEndpoint, HttpProducer } from '@alt-javascript/camel-lite-component-http';
 
 // Spin a minimal local HTTP server for testing — no external network calls
 function makeTestServer(handler) {

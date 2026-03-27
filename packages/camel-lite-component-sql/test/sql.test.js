@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
-import { Exchange, CamelContext } from 'camel-lite-core';
-import { SqlComponent, ParameterBinder, openDatabase } from 'camel-lite-component-sql';
+import { Exchange, CamelContext } from '@alt-javascript/camel-lite-core';
+import { SqlComponent, ParameterBinder, openDatabase } from '@alt-javascript/camel-lite-component-sql';
 
 // ---------------------------------------------------------------------------
 // Helper: open an in-memory SQLite DB with a test table
