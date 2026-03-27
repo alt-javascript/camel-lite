@@ -9,7 +9,8 @@
     "test": "node --test"
   },
   "devDependencies": {
-    "@alt-javascript/camel-lite-component-direct": "1.0.2"
+    "@alt-javascript/camel-lite-component-direct": "1.0.2",
+    "@alt-javascript/camel-lite-component-seda": "1.0.2"
   },
   "dependencies": {
     "@alt-javascript/common": "^3.0.7",

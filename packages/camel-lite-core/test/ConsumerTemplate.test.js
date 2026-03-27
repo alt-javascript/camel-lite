@@ -1,8 +1,8 @@
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { CamelContext, ConsumerTemplate, ProducerTemplate } from '../src/index.js';
-import { DirectComponent } from '../../camel-lite-component-direct/src/index.js';
-import { SedaComponent } from '../../camel-lite-component-seda/src/index.js';
+import { DirectComponent } from '@alt-javascript/camel-lite-component-direct';
+import { SedaComponent } from '@alt-javascript/camel-lite-component-seda';
 
 // ---------------------------------------------------------------------------
 // Helpers
