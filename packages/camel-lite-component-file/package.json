@@ -1,15 +1,15 @@
 {
-  "name": "camel-lite-component-file",
-  "version": "1.0.1",
+  "name": "@alt-javascript/camel-lite-component-file",
+  "version": "1.0.2",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
   },
   "dependencies": {
-    "camel-lite-core": "1.0.1",
     "@alt-javascript/logger": "^3.0.7",
     "@alt-javascript/config": "^3.0.7",
-    "@alt-javascript/common": "^3.0.7"
+    "@alt-javascript/common": "^3.0.7",
+    "@alt-javascript/camel-lite-core": "1.0.2"
   },
   "scripts": {
     "test": "node --test"

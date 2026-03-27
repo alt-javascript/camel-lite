@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-03-27
+
+### Changed
+
+- Scoped all package names to `@alt-javascript/` (e.g. `camel-lite-core` → `@alt-javascript/camel-lite-core`)
+- Updated all cross-package imports and `devDependencies` to use scoped names
+
 ## [1.0.1] - 2026-03-27
 
 ### Fixed
@@ -82,6 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WARN level: lock acquire failure, missing component, stop cleanup error
 - Exchange error captured in `exchange.exception` — pipeline continues to dead letter channel if configured
 
-[Unreleased]: https://github.com/alt-javascript/camel-lite/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/alt-javascript/camel-lite/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/alt-javascript/camel-lite/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/alt-javascript/camel-lite/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/alt-javascript/camel-lite/releases/tag/v1.0.0
