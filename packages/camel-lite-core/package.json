@@ -13,5 +13,9 @@
     "@alt-javascript/config": "^3.0.7",
     "@alt-javascript/logger": "^3.0.7",
     "js-yaml": "^4.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alt-javascript/camel-lite"
   }
 }

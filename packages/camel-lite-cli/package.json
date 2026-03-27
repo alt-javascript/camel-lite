@@ -38,5 +38,9 @@
     "cli"
   ],
   "author": "Craig Parravicini",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alt-javascript/camel-lite"
+  }
 }
