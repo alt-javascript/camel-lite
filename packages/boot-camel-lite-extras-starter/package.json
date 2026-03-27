@@ -11,12 +11,12 @@
     "@alt-javascript/config": "^3.0.7",
     "@alt-javascript/logger": "^3.0.7",
     "@alt-javascript/common": "^3.0.7",
-    "boot-camel-lite-starter": "*",
-    "camel-lite-core": "*",
-    "camel-lite-component-amqp": "*",
-    "camel-lite-component-sql": "*",
-    "camel-lite-component-nosql": "*",
-    "camel-lite-component-master": "*"
+    "boot-camel-lite-starter": "1.0.0",
+    "camel-lite-core": "1.0.0",
+    "camel-lite-component-amqp": "1.0.0",
+    "camel-lite-component-sql": "1.0.0",
+    "camel-lite-component-nosql": "1.0.0",
+    "camel-lite-component-master": "1.0.0"
   },
   "scripts": {
     "test": "node --test"
