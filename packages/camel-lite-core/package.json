@@ -1,6 +1,6 @@
 {
   "name": "@alt-javascript/camel-lite-core",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
@@ -9,8 +9,8 @@
     "test": "node --test"
   },
   "devDependencies": {
-    "@alt-javascript/camel-lite-component-direct": "1.0.2",
-    "@alt-javascript/camel-lite-component-seda": "1.0.2"
+    "@alt-javascript/camel-lite-component-direct": "1.1.0",
+    "@alt-javascript/camel-lite-component-seda": "1.1.0"
   },
   "dependencies": {
     "@alt-javascript/common": "^3.0.7",
@@ -25,7 +25,7 @@
   "author": "Craig Parravicini",
   "contributors": [
     "Claude (Anthropic)",
-    "Apache Camel — design inspiration and pattern source"
+    "Apache Camel \u2014 design inspiration and pattern source"
   ],
   "keywords": [
     "alt-javascript",

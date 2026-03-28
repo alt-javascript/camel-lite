@@ -2,7 +2,7 @@
 
 [![Language](https://img.shields.io/badge/language-JavaScript-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](CHANGELOG.md)
 
 An [Apache Camel](https://camel.apache.org/)-inspired integration framework for pure JavaScript — Enterprise Integration Patterns, component-based routing, and a Spring Boot-style auto-configuration starter, all in ES modules with no TypeScript and no build step required.
 
@@ -58,14 +58,14 @@ It runs in Node.js 22+ as pure ESM. The boot starters bring it into the `@alt-ja
 ## Quick Start
 
 ```bash
-npm install camel-lite-core camel-lite-component-direct camel-lite-component-log
+npm install @alt-javascript/camel-lite-core @alt-javascript/camel-lite-component-direct @alt-javascript/camel-lite-component-log
 ```
 
 ```javascript
-import { CamelContext, RouteBuilder } from 'camel-lite-core';
-import { DirectComponent } from 'camel-lite-component-direct';
-import { LogComponent } from 'camel-lite-component-log';
-import { ProducerTemplate } from 'camel-lite-core';
+import { CamelContext, RouteBuilder } from '@alt-javascript/camel-lite-core';
+import { DirectComponent } from '@alt-javascript/camel-lite-component-direct';
+import { LogComponent } from '@alt-javascript/camel-lite-component-log';
+import { ProducerTemplate } from '@alt-javascript/camel-lite-core';
 
 const context = new CamelContext();
 context.addComponent('direct', new DirectComponent());
@@ -88,11 +88,11 @@ await context.stop();
 ### With boot starter
 
 ```bash
-npm install boot-camel-lite-starter @alt-javascript/boot @alt-javascript/cdi @alt-javascript/config
+npm install @alt-javascript/boot-camel-lite-starter @alt-javascript/boot @alt-javascript/cdi @alt-javascript/config
 ```
 
 ```javascript
-import { camelLiteStarter } from 'boot-camel-lite-starter';
+import { camelLiteStarter } from '@alt-javascript/boot-camel-lite-starter';
 import { EphemeralConfig } from '@alt-javascript/config';
 
 const { applicationContext } = await camelLiteStarter({
@@ -121,11 +121,16 @@ await pt.sendBody('direct:hello', 'world');
 ### CLI
 
 ```bash
-npm install -g camel-lite-cli
+npm install -g @alt-javascript/camel-lite-cli
 
-camel-lite -r route.yaml -i '{"name":"world"}'
-camel-lite -l json -r route.yaml -i body   # JSON log output
-camel-lite -r route.yaml -d                # daemon mode
+camel-lite -r route.yaml -i '{"name":"world"}'        # inject a message
+camel-lite -r route.yaml -i body --exchange-pattern InOut  # request-reply
+camel-lite -r route.yaml -p direct:ep -i body         # send to specific URI
+camel-lite -r route.yaml -c seda:results              # consume and print
+camel-lite -l json -r route.yaml                      # JSON log output
+camel-lite -r route.yaml -d                           # daemon mode
+camel-lite --verbose -r route.yaml                    # show framework logs
+camel-lite --debug   -r route.yaml                    # full debug logs
 ```
 
 ## Packages
@@ -145,7 +150,7 @@ camel-lite -r route.yaml -d                # daemon mode
 | [`camel-lite-component-sql`](packages/camel-lite-component-sql/README.md) | SQL query/update endpoint — `sql:SELECT * FROM users?url=jsdbc:sqlite::memory:` |
 | [`camel-lite-component-nosql`](packages/camel-lite-component-nosql/README.md) | NoSQL collection endpoint — `nosql:collection?url=jsnosqlc:memory:&operation=insert` |
 | [`camel-lite-component-master`](packages/camel-lite-component-master/README.md) | Leader election — `master:service?backend=file\|zookeeper\|consul` |
-| [`camel-lite-cli`](packages/camel-lite-cli/README.md) | Command-line runtime — `camel-lite -r route.yaml -i body -d` |
+| [`camel-lite-cli`](packages/camel-lite-cli/README.md) | Command-line runtime — `camel-lite -r route.yaml [-i body] [-p uri] [-c uri] [--exchange-pattern InOnly\|InOut] [-d] [--verbose\|--debug]` |
 | [`boot-camel-lite-starter`](packages/boot-camel-lite-starter/README.md) | `@alt-javascript/boot` auto-configuration: core + direct/seda/log/file/http/ftp/timer/cron |
 | [`boot-camel-lite-extras-starter`](packages/boot-camel-lite-extras-starter/README.md) | Boot auto-configuration: amqp/sql/nosql/master |
 

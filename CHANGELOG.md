@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-03-28
+
+### Added
+
+#### CLI (`camel-lite-cli`)
+
+- `--verbose` — restores info-level framework logging on stderr (default: suppressed)
+- `--debug` — restores debug-level framework logging on stderr; takes precedence over `--verbose`
+- `-p`, `--producer-uri <uri>` — override the ProducerTemplate target URI; requires `-i`
+- `--exchange-pattern <InOnly|i|InOut|io>` — select fire-and-forget (`InOnly`, `i`) or request-reply (`InOut`, `io`); case-insensitive; defaults to `InOnly`; reply body printed to stdout for `InOut`
+- `-c`, `--consumer-uri <uri>` — poll a consumer URI in a daemon loop, printing each message body to stdout; implies daemon mode; mutually exclusive with `-i` and `-p`
+- User config discovery: `ProfileConfigLoader.load({ basePath: ~/.camel-lite })` loads `application.yaml` / `application.json` from the user's home config directory on every invocation
+- Silent-by-default: all framework logging suppressed via `EphemeralConfig` overlay (`logging.level./: off`); zero stderr output unless `--verbose` or `--debug` is set
+- Boot banner suppressed unconditionally
+
+#### Core (`camel-lite-core`)
+
+- `PollingConsumerAdapter` — wraps any push-consumer in an internal `BufferQueue`, making it pollable via `ConsumerTemplate`; enables `ConsumerTemplate` to receive from any URI scheme, not only `seda:`
+- `CamelContext.pollingUris` — `Set<string>` property; URIs in this set are wrapped with `PollingConsumerAdapter` when the context starts
+- `ConsumerTemplate` — removed scheme whitelist; any consumer with a native `poll()` method or registered via `pollingUris` is now supported
+
+### Changed
+
+#### CLI (`camel-lite-cli`)
+
+- Runtime now uses `CdiCamelRuntime` (CDI boot stack via `camelLiteExtrasStarter`) as the sole execution path; all 12 component schemes are available without manual registration
+- `components.js` deleted; component registration is handled entirely by `boot-camel-lite-extras-starter`
+- Config composition: `PropertySourceChain([loggingOverlay, userConfig])` — logging overlay wins, user config applies underneath
+- `CamelRuntime` re-exported from `src/index.js` as a backward-compatible alias for `CdiCamelRuntime`
+
 ## [1.0.2] - 2026-03-27
 
 ### Changed
@@ -89,7 +119,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WARN level: lock acquire failure, missing component, stop cleanup error
 - Exchange error captured in `exchange.exception` — pipeline continues to dead letter channel if configured
 
-[Unreleased]: https://github.com/alt-javascript/camel-lite/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/alt-javascript/camel-lite/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/alt-javascript/camel-lite/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/alt-javascript/camel-lite/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/alt-javascript/camel-lite/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/alt-javascript/camel-lite/releases/tag/v1.0.0

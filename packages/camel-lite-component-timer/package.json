@@ -1,6 +1,6 @@
 {
   "name": "@alt-javascript/camel-lite-component-timer",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
@@ -9,7 +9,7 @@
     "@alt-javascript/common": "^3.0.7",
     "@alt-javascript/config": "^3.0.7",
     "@alt-javascript/logger": "^3.0.7",
-    "@alt-javascript/camel-lite-core": "1.0.2"
+    "@alt-javascript/camel-lite-core": "1.1.0"
   },
   "scripts": {
     "test": "node --test"
@@ -21,7 +21,7 @@
   "author": "Craig Parravicini",
   "contributors": [
     "Claude (Anthropic)",
-    "Apache Camel — design inspiration and pattern source"
+    "Apache Camel \u2014 design inspiration and pattern source"
   ],
   "keywords": [
     "alt-javascript",

@@ -1,7 +1,7 @@
 {
   "name": "@alt-javascript/example-boot-camel-lite-hono",
   "version": "1.0.2",
-  "description": "Example: camel-lite + Hono — REST endpoint → ProducerTemplate → camel-lite route, with timer and master: background routes",
+  "description": "Example: camel-lite + Hono \u2014 REST endpoint \u2192 ProducerTemplate \u2192 camel-lite route, with timer and master: background routes",
   "type": "module",
   "private": true,
   "scripts": {
@@ -15,12 +15,12 @@
     "@alt-javascript/config": "^3.0.7",
     "@alt-javascript/logger": "^3.0.7",
     "@alt-javascript/common": "^3.0.7",
-    "@alt-javascript/boot-camel-lite-extras-starter": "1.0.2"
+    "@alt-javascript/boot-camel-lite-extras-starter": "1.1.0"
   },
   "author": "Craig Parravicini",
   "contributors": [
     "Claude (Anthropic)",
-    "Apache Camel — design inspiration and pattern source"
+    "Apache Camel \u2014 design inspiration and pattern source"
   ],
   "keywords": [
     "alt-javascript",
