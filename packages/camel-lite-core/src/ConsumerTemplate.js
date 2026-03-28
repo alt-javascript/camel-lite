@@ -2,14 +2,14 @@ import { LoggerFactory } from '@alt-javascript/logger';
 
 const log = LoggerFactory.getLogger('@alt-javascript/camel-lite/ConsumerTemplate');
 
-const SUPPORTED_POLL_SCHEMES = new Set(['seda']);
-
 /**
- * ConsumerTemplate — high-level API for polling messages from queue-based
- * endpoints (currently seda:) registered in a running CamelContext.
+ * ConsumerTemplate — high-level API for polling messages from endpoints
+ * registered in a running CamelContext.
  *
- * Only polling-capable endpoints are supported. Push-model endpoints like
- * direct: do not expose a dequeuable queue and will throw a clear error.
+ * Any consumer that exposes a `poll(timeoutMs)` method is supported.
+ * For push-model endpoints (direct:, timer:, etc.) you must declare the URI
+ * in `ctx.pollingUris` before starting the context so CamelContext wraps it
+ * with a PollingConsumerAdapter.
  *
  * Usage:
  *   const ct = new ConsumerTemplate(context);
@@ -32,19 +32,20 @@ class ConsumerTemplate {
    * @returns {Promise<Exchange|null>}
    */
   async receive(uri, timeoutMs = 5000) {
-    const scheme = this.#scheme(uri);
-    if (!SUPPORTED_POLL_SCHEMES.has(scheme)) {
-      throw new Error(
-        `ConsumerTemplate does not support polling from '${scheme}:'. ` +
-        `Supported schemes: ${[...SUPPORTED_POLL_SCHEMES].join(', ')}`
-      );
-    }
+    // Validate URI format
+    this.#scheme(uri);
 
     log.info(`ConsumerTemplate polling from ${uri}`);
 
     const consumer = this.#context.getConsumer(uri);
     if (!consumer) {
       throw new Error(`ConsumerTemplate: no consumer registered for '${uri}' — is the context started?`);
+    }
+
+    if (typeof consumer.poll !== 'function') {
+      throw new Error(
+        `ConsumerTemplate: consumer for '${uri}' does not support polling — wrap it with PollingConsumerAdapter`
+      );
     }
 
     return consumer.poll(timeoutMs);

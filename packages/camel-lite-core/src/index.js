@@ -15,3 +15,4 @@ export { AggregationStrategies } from './AggregationStrategies.js';
 export { RouteLoader } from './RouteLoader.js';
 export { ProducerTemplate } from './ProducerTemplate.js';
 export { ConsumerTemplate } from './ConsumerTemplate.js';
+export { PollingConsumerAdapter } from './PollingConsumerAdapter.js';

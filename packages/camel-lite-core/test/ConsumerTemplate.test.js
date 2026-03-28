@@ -1,8 +1,9 @@
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { CamelContext, ConsumerTemplate, ProducerTemplate } from '../src/index.js';
+import { CamelContext, ConsumerTemplate, ProducerTemplate, PollingConsumerAdapter } from '../src/index.js';
 import { DirectComponent } from '@alt-javascript/camel-lite-component-direct';
 import { SedaComponent } from '@alt-javascript/camel-lite-component-seda';
+import { TimerComponent } from '@alt-javascript/camel-lite-component-timer';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -26,13 +27,18 @@ describe('ConsumerTemplate: constructor', () => {
 });
 
 describe('ConsumerTemplate: unsupported schemes', () => {
-  it('throws for direct: scheme', async () => {
+  it('throws for direct: scheme without pollingUris wrapper', async () => {
+    // direct: consumer has no poll() — expect "does not support polling" error
     const ctx = makeContext();
-    await ctx.start();
+    const { RouteBuilder } = await import('../src/RouteBuilder.js');
+    const builder = new RouteBuilder();
+    builder.from('direct:foo').process(ex => ex);
+    ctx.addRoutes(builder);
+    await ctx.start();   // no pollingUris set → raw DirectConsumer registered
     const ct = new ConsumerTemplate(ctx);
     await assert.rejects(
       () => ct.receive('direct:foo'),
-      /does not support polling from 'direct:'/
+      /does not support polling/
     );
     await ctx.stop();
   });
@@ -142,5 +148,71 @@ describe('ConsumerTemplate: poll without competing route worker', () => {
     const ct = new ConsumerTemplate(ctx);
     const exchange = await ct.receive('seda:inbox', 50);
     assert.equal(exchange, null);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// PollingConsumerAdapter: wrapping a timer: consumer
+// ---------------------------------------------------------------------------
+
+describe('ConsumerTemplate: PollingConsumerAdapter with timer:', () => {
+  let ctx;
+
+  before(async () => {
+    ctx = new CamelContext();
+    ctx.addComponent('direct', new DirectComponent());
+    ctx.addComponent('seda', new SedaComponent());
+    ctx.addComponent('timer', new TimerComponent());
+
+    const { RouteBuilder } = await import('../src/RouteBuilder.js');
+    const builder = new RouteBuilder();
+    // A timer route that fires 3 times with 50 ms period.
+    builder.from('timer:tick?period=50&repeatCount=3').process(ex => ex);
+    ctx.addRoutes(builder);
+
+    // Declare the timer URI as a polling URI before start.
+    ctx.pollingUris = new Set(['timer:tick?period=50&repeatCount=3']);
+    await ctx.start();
+  });
+
+  after(async () => {
+    await ctx.stop();
+  });
+
+  it('poll() returns a non-null Exchange with CamelTimerName header', async () => {
+    const ct = new ConsumerTemplate(ctx);
+    const exchange = await ct.receive('timer:tick?period=50&repeatCount=3', 500);
+    assert.notEqual(exchange, null, 'expected an Exchange, got null (timeout)');
+    assert.equal(
+      exchange.in.getHeader('CamelTimerName'),
+      'tick',
+      'expected CamelTimerName header to be "tick"'
+    );
+  });
+
+  it('PollingConsumerAdapter is exported from camel-lite-core index', () => {
+    assert.ok(typeof PollingConsumerAdapter === 'function', 'PollingConsumerAdapter should be a class/function');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// PollingConsumerAdapter: direct without pollingUris throws
+// ---------------------------------------------------------------------------
+
+describe('ConsumerTemplate: raw direct: consumer throws does not support polling', () => {
+  it('direct: consumer without pollingUris wrapper throws the expected error', async () => {
+    const ctx = makeContext();
+    const { RouteBuilder } = await import('../src/RouteBuilder.js');
+    const builder = new RouteBuilder();
+    builder.from('direct:bar').process(ex => ex);
+    ctx.addRoutes(builder);
+    // No pollingUris — DirectConsumer has no poll() method
+    await ctx.start();
+    const ct = new ConsumerTemplate(ctx);
+    await assert.rejects(
+      () => ct.receive('direct:bar', 100),
+      /does not support polling/
+    );
+    await ctx.stop();
   });
 });

@@ -2,9 +2,12 @@ import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { Readable } from 'node:stream';
 import { CamelRuntime } from '../src/index.js';
 import { RouteLoader, ProducerTemplate } from '@alt-javascript/camel-lite-core';
+import { ProfileConfigLoader } from '@alt-javascript/config';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURE = join(__dirname, 'fixtures', 'log-route.yaml');
@@ -85,7 +88,7 @@ describe('CamelRuntime: sendBody through a log: route', () => {
 // ---------------------------------------------------------------------------
 
 describe('CLI arg validation', () => {
-  function validateArgs(routes, input, logMode = 'text') {
+  function validateArgs(routes, input, logMode = 'text', producerUri = undefined, exchangePattern = 'InOnly', consumerUri = undefined) {
     if (!routes) return { error: '-r / --routes is required' };
     if (routes === '-' && input === '-') {
       return { error: '-r - and -i - are mutually exclusive: only one argument can read from stdin' };
@@ -93,6 +96,20 @@ describe('CLI arg validation', () => {
     const mode = (logMode ?? 'text').toLowerCase();
     if (mode !== 'text' && mode !== 'json') {
       return { error: `-l / --log-mode must be 'text' or 'json', got: '${logMode}'` };
+    }
+    if (consumerUri && input !== undefined) {
+      return { error: '-c / --consumer-uri is mutually exclusive with -i / --input' };
+    }
+    if (consumerUri && producerUri) {
+      return { error: '-c / --consumer-uri is mutually exclusive with -p / --producer-uri' };
+    }
+    if (producerUri && input === undefined) {
+      return { error: '-p / --producer-uri requires -i / --input' };
+    }
+    const rawPat = (exchangePattern ?? 'InOnly').toLowerCase();
+    const validPatterns = ['i', 'inonly', 'io', 'inout'];
+    if (!validPatterns.includes(rawPat)) {
+      return { error: `--exchange-pattern must be 'InOnly', 'i', 'InOut', or 'io', got: '${exchangePattern}'` };
     }
     return { ok: true };
   }
@@ -141,6 +158,55 @@ describe('CLI arg validation', () => {
     assert.ok(result.error);
     assert.match(result.error, /must be 'text' or 'json'/);
   });
+
+  it('-p without -i produces error', () => {
+    const result = validateArgs('r.yaml', undefined, 'text', 'direct:ep');
+    assert.ok(result.error, 'expected error');
+    assert.match(result.error, /--producer-uri requires -i/);
+  });
+
+  it('-p with -i passes', () => {
+    const result = validateArgs('r.yaml', 'body', 'text', 'direct:ep');
+    assert.ok(result.ok);
+  });
+
+  it('--exchange-pattern InOnly passes', () => {
+    const result = validateArgs('r.yaml', undefined, 'text', undefined, 'InOnly');
+    assert.ok(result.ok);
+  });
+
+  it('--exchange-pattern InOut passes', () => {
+    const result = validateArgs('r.yaml', undefined, 'text', undefined, 'InOut');
+    assert.ok(result.ok);
+  });
+
+  it('--exchange-pattern short forms i and io pass', () => {
+    assert.ok(validateArgs('r.yaml', undefined, 'text', undefined, 'i').ok);
+    assert.ok(validateArgs('r.yaml', undefined, 'text', undefined, 'io').ok);
+  });
+
+  it('--exchange-pattern invalid produces error', () => {
+    const result = validateArgs('r.yaml', undefined, 'text', undefined, 'xml');
+    assert.ok(result.error, 'expected error');
+    assert.match(result.error, /must be 'InOnly'/);
+  });
+
+  it('-c with -i produces error', () => {
+    const result = validateArgs('r.yaml', 'hello', 'text', undefined, 'InOnly', 'timer:tick');
+    assert.ok(result.error, 'expected error');
+    assert.match(result.error, /mutually exclusive with -i/);
+  });
+
+  it('-c with -p produces error', () => {
+    const result = validateArgs('r.yaml', undefined, 'text', 'direct:ep', 'InOnly', 'timer:tick');
+    assert.ok(result.error, 'expected error');
+    assert.match(result.error, /mutually exclusive with -p/);
+  });
+
+  it('-c alone passes', () => {
+    const result = validateArgs('r.yaml', undefined, 'text', undefined, 'InOnly', 'timer:tick');
+    assert.ok(result.ok);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -177,5 +243,50 @@ route:
     const routes = builder.getRoutes();
     assert.equal(routes.length, 1);
     assert.equal(routes[0].fromUri, 'direct:stream-json-cli');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// ProfileConfigLoader: ~/.camel-lite config discovery
+// ---------------------------------------------------------------------------
+
+describe('ProfileConfigLoader: config discovery from basePath', () => {
+  let tempDir;
+
+  before(() => {
+    tempDir = mkdtempSync(join(tmpdir(), 'camel-lite-config-test-'));
+    writeFileSync(
+      join(tempDir, 'application.yaml'),
+      'camel:\n  app:\n    name: test-app\n  route:\n    timeout: 5000\n',
+    );
+  });
+
+  after(() => {
+    rmSync(tempDir, { recursive: true, force: true });
+  });
+
+  it('loads application.yaml from the given basePath', () => {
+    const chain = ProfileConfigLoader.load({ basePath: tempDir });
+    assert.ok(chain.has('camel.app.name'), 'camel.app.name should be present');
+    assert.equal(chain.get('camel.app.name'), 'test-app');
+  });
+
+  it('resolves nested numeric config values', () => {
+    const chain = ProfileConfigLoader.load({ basePath: tempDir });
+    assert.ok(chain.has('camel.route.timeout'), 'camel.route.timeout should be present');
+    assert.equal(chain.get('camel.route.timeout'), 5000);
+  });
+
+  it('returns defaultValue for missing keys', () => {
+    const chain = ProfileConfigLoader.load({ basePath: tempDir });
+    assert.equal(chain.get('does.not.exist', 'fallback'), 'fallback');
+  });
+
+  it('overrides from options.overrides take priority over file values', () => {
+    const chain = ProfileConfigLoader.load({
+      basePath: tempDir,
+      overrides: { 'camel.app.name': 'overridden-app' },
+    });
+    assert.equal(chain.get('camel.app.name'), 'overridden-app');
   });
 });
