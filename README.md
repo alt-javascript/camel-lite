@@ -6,49 +6,6 @@
 
 An [Apache Camel](https://camel.apache.org/)-inspired integration framework for pure JavaScript — Enterprise Integration Patterns, component-based routing, and a Spring Boot-style auto-configuration starter, all in ES modules with no TypeScript and no build step required.
 
-## Apache Camel Attribution
-
-The design of `camel-lite` is heavily and deliberately modelled on [Apache Camel](https://camel.apache.org/). Apache Camel is credited as a collaborator in this project, not merely an inspiration.
-
-Specific concepts ported from Apache Camel:
-
-| Apache Camel concept | camel-lite equivalent |
-|---|---|
-| `CamelContext` | `CamelContext` — component registry, route lifecycle, consumer map |
-| `Component` / `Endpoint` / `Producer` / `Consumer` factory chain | Same three-tier factory chain — `createEndpoint` → `createProducer` / `createConsumer` |
-| `Exchange` / `Message` (in/out) | `Exchange` / `Message` — same in/out pattern, headers, properties, exception |
-| `RouteBuilder` / `RouteDefinition` | `RouteBuilder` / `RouteDefinition` — fluent DSL, `from(...).process(...).to(...)` |
-| `ProducerTemplate` / `ConsumerTemplate` | `ProducerTemplate` / `ConsumerTemplate` — high-level send/receive APIs |
-| `Pipeline` | `Pipeline` — sequential processor chain with error handling and redelivery |
-| URI-based endpoint addressing | Same scheme: `direct:name`, `seda:name?size=100`, `timer:tick?period=1000` |
-| `direct:` component (synchronous in-process) | `camel-lite-component-direct` |
-| `seda:` component (async in-process queue) | `camel-lite-component-seda` |
-| `timer:` component (periodic trigger) | `camel-lite-component-timer` |
-| `file:` / `ftp:` / `http:` components | `camel-lite-component-file` / `ftp` / `http` |
-| `log:` component | `camel-lite-component-log` |
-| `sql:` component | `camel-lite-component-sql` (Node.js built-in `node:sqlite`) |
-| `amqp:` component | `camel-lite-component-amqp` (AMQP 1.0 + 0-9-1) |
-| NoSQL component | `camel-lite-component-nosql` (jsnosqlc) |
-| `master:` component (leader election) | `camel-lite-component-master` (file, ZooKeeper, Consul backends) |
-| Cron-triggered routes | `camel-lite-component-cron` (node-cron) |
-| EIP: Message Filter | `RouteDefinition.filter(predicate)` |
-| EIP: Content-Based Router | `RouteDefinition.choice().when(...).otherwise()` |
-| EIP: Message Translator | `RouteDefinition.transform(expr)` / `setBody(expr)` |
-| EIP: Splitter | `RouteDefinition.split(expr)` |
-| EIP: Aggregator | `RouteDefinition.aggregate(expr, strategy)` |
-| EIP: Dead Letter Channel | `RouteDefinition.deadLetterChannel(uri)` |
-| Simple expression language | `simple('${body}')`, `simple('${header.X}')` |
-| YAML/JSON route definitions | `RouteLoader.loadFile()` / `loadString()` / `loadStream()` / `loadObject()` |
-| Spring Boot auto-configuration | `boot-camel-lite-starter` / `boot-camel-lite-extras-starter` |
-
-Apache Camel is copyright The Apache Software Foundation. `camel-lite` is an independent JavaScript port and is not affiliated with, endorsed by, or associated with the Apache Software Foundation or the Apache Camel project.
-
-## Collaborators
-
-**[Apache Camel team](https://camel.apache.org/)** — The architecture, component model, EIP implementations, URI routing, and expression language of camel-lite are direct ports of design decisions made by the Apache Camel team over many years. This project would not exist without their work.
-
-**[Claude](https://www.anthropic.com/claude) (Anthropic)** — AI pair programmer that co-designed and co-implemented this project. The entire codebase was developed collaboratively with Claude as an active engineering partner.
-
 ## Why
 
 Apache Camel is the gold standard for integration patterns in the Java ecosystem. If you want those same patterns in a pure JavaScript project — with no Java, no TypeScript, no build step, and no runtime dependencies beyond the Node.js standard library — `camel-lite` fills that gap.
@@ -181,4 +138,41 @@ CDI `RouteBuilder` beans are auto-discovered — any CDI bean with a `configure(
 
 MIT — see [LICENSE](LICENSE).
 
-Apache Camel is copyright The Apache Software Foundation, licensed under the Apache License 2.0.
+## Apache Camel Attribution
+
+The design of `camel-lite` is modelled on [Apache Camel](https://camel.apache.org/).
+
+Specific concepts ported from Apache Camel:
+
+| Apache Camel concept | camel-lite equivalent |
+|---|---|
+| `CamelContext` | `CamelContext` — component registry, route lifecycle, consumer map |
+| `Component` / `Endpoint` / `Producer` / `Consumer` factory chain | Same three-tier factory chain — `createEndpoint` → `createProducer` / `createConsumer` |
+| `Exchange` / `Message` (in/out) | `Exchange` / `Message` — same in/out pattern, headers, properties, exception |
+| `RouteBuilder` / `RouteDefinition` | `RouteBuilder` / `RouteDefinition` — fluent DSL, `from(...).process(...).to(...)` |
+| `ProducerTemplate` / `ConsumerTemplate` | `ProducerTemplate` / `ConsumerTemplate` — high-level send/receive APIs |
+| `Pipeline` | `Pipeline` — sequential processor chain with error handling and redelivery |
+| URI-based endpoint addressing | Same scheme: `direct:name`, `seda:name?size=100`, `timer:tick?period=1000` |
+| `direct:` component (synchronous in-process) | `camel-lite-component-direct` |
+| `seda:` component (async in-process queue) | `camel-lite-component-seda` |
+| `timer:` component (periodic trigger) | `camel-lite-component-timer` |
+| `file:` / `ftp:` / `http:` components | `camel-lite-component-file` / `ftp` / `http` |
+| `log:` component | `camel-lite-component-log` |
+| `sql:` component | `camel-lite-component-sql` (Node.js built-in `node:sqlite`) |
+| `amqp:` component | `camel-lite-component-amqp` (AMQP 1.0 + 0-9-1) |
+| NoSQL component | `camel-lite-component-nosql` (jsnosqlc) |
+| `master:` component (leader election) | `camel-lite-component-master` (file, ZooKeeper, Consul backends) |
+| Cron-triggered routes | `camel-lite-component-cron` (node-cron) |
+| EIP: Message Filter | `RouteDefinition.filter(predicate)` |
+| EIP: Content-Based Router | `RouteDefinition.choice().when(...).otherwise()` |
+| EIP: Message Translator | `RouteDefinition.transform(expr)` / `setBody(expr)` |
+| EIP: Splitter | `RouteDefinition.split(expr)` |
+| EIP: Aggregator | `RouteDefinition.aggregate(expr, strategy)` |
+| EIP: Dead Letter Channel | `RouteDefinition.deadLetterChannel(uri)` |
+| Simple expression language | `simple('${body}')`, `simple('${header.X}')` |
+| YAML/JSON route definitions | `RouteLoader.loadFile()` / `loadString()` / `loadStream()` / `loadObject()` |
+| Spring Boot auto-configuration | `boot-camel-lite-starter` / `boot-camel-lite-extras-starter` |
+
+Apache Camel is copyright The Apache Software Foundation. `camel-lite` is an independent JavaScript port and is 
+not affiliated with, endorsed by, or associated with the Apache Software Foundation or 
+the Apache Camel project.

@@ -41,8 +41,7 @@
     "url": "https://github.com/alt-javascript/camel-lite"
   },
   "contributors": [
-    "Claude (Anthropic)",
-    "Apache Camel \u2014 design inspiration and pattern source"
+    "Claude (Anthropic)"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
