@@ -1,6 +1,6 @@
 {
   "name": "@alt-javascript/boot-camel-lite-extras-starter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "exports": {
     ".": "./index.js"
@@ -11,12 +11,12 @@
     "@alt-javascript/config": "^3.0.7",
     "@alt-javascript/logger": "^3.0.7",
     "@alt-javascript/common": "^3.0.7",
-    "@alt-javascript/boot-camel-lite-starter": "1.1.0",
-    "@alt-javascript/camel-lite-core": "1.1.0",
-    "@alt-javascript/camel-lite-component-amqp": "1.1.0",
-    "@alt-javascript/camel-lite-component-sql": "1.1.0",
-    "@alt-javascript/camel-lite-component-nosql": "1.1.0",
-    "@alt-javascript/camel-lite-component-master": "1.1.0"
+    "@alt-javascript/boot-camel-lite-starter": "1.1.1",
+    "@alt-javascript/camel-lite-core": "1.1.1",
+    "@alt-javascript/camel-lite-component-amqp": "1.1.1",
+    "@alt-javascript/camel-lite-component-sql": "1.1.1",
+    "@alt-javascript/camel-lite-component-nosql": "1.1.1",
+    "@alt-javascript/camel-lite-component-master": "1.1.1"
   },
   "scripts": {
     "test": "node --test"

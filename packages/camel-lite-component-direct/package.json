@@ -1,6 +1,6 @@
 {
   "name": "@alt-javascript/camel-lite-component-direct",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
@@ -9,7 +9,7 @@
     "@alt-javascript/common": "^3.0.7",
     "@alt-javascript/config": "^3.0.7",
     "@alt-javascript/logger": "^3.0.7",
-    "@alt-javascript/camel-lite-core": "1.1.0"
+    "@alt-javascript/camel-lite-core": "1.1.1"
   },
   "scripts": {
     "test": "node --test"

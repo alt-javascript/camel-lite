@@ -15,7 +15,7 @@
     "@alt-javascript/config": "^3.0.7",
     "@alt-javascript/logger": "^3.0.7",
     "@alt-javascript/common": "^3.0.7",
-    "@alt-javascript/boot-camel-lite-extras-starter": "1.1.0"
+    "@alt-javascript/boot-camel-lite-extras-starter": "1.1.1"
   },
   "author": "Craig Parravicini",
   "contributors": [

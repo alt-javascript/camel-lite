@@ -1,6 +1,6 @@
 {
   "name": "@alt-javascript/camel-lite-core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
@@ -9,8 +9,8 @@
     "test": "node --test"
   },
   "devDependencies": {
-    "@alt-javascript/camel-lite-component-direct": "1.1.0",
-    "@alt-javascript/camel-lite-component-seda": "1.1.0"
+    "@alt-javascript/camel-lite-component-direct": "1.1.1",
+    "@alt-javascript/camel-lite-component-seda": "1.1.1"
   },
   "dependencies": {
     "@alt-javascript/common": "^3.0.7",
