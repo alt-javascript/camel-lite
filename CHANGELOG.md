@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-03-29
+
+### Fixed
+
+- Version collision: bumped all packages from `1.1.0` to `1.1.1` to allow clean npm publish
+
+### Changed
+
+- Dropped Node.js 20 from CI matrix — `node:sqlite` (`DatabaseSync`) requires Node 22.5+
+- Added `engines: { "node": ">=22.5.0" }` to root `package.json`
+
 ## [1.1.0] - 2026-03-28
 
 ### Added
@@ -123,8 +134,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.1]: https://github.com/alt-javascript/camel-lite/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/alt-javascript/camel-lite/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/alt-javascript/camel-lite/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/alt-javascript/camel-lite/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/alt-javascript/camel-lite/releases/tag/v1.0.0
-https://github.com/alt-javascript/camel-lite/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/alt-javascript/camel-lite/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/alt-javascript/camel-lite/releases/tag/v1.0.0
